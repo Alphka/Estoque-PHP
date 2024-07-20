@@ -12,11 +12,6 @@ if(!isset($usuario)){
 
 include "../conexao.php";
 
-if(!$connection){
-	http_response_code(500);
-	return;
-}
-
 $categorias = mysqli_query($connection, "SELECT * FROM categoria ORDER BY nome ASC");
 $fornecedores = mysqli_query($connection, "SELECT * FROM fornecedor ORDER BY nome ASC");
 
