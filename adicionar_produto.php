@@ -15,130 +15,169 @@ if(!isset($usuario)){
 	<head>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<title>Página inicial</title>
-		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+		<meta name="color-scheme" content="dark">
+		<title>Cadastrar produto - Estoque</title>
+		<script src="https://cdn.tailwindcss.com"></script>
+		<style>
+			:root {
+				color-scheme: dark;
+			}
+		</style>
 	</head>
-	<body>
-		<div class="container mt-5">
-			<ul class="row list-unstyled">
-				<li class="col-sm-6 mt-4">
-					<div class="card h-100">
-						<div class="card-body">
-							<h5 class="card-title d-flex align-items-center">
-								<svg class="flex-shrink-0" style="height: 1em" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" fill="currentColor">
-									<path d="M280-80q-33 0-56.5-23.5T200-160q0-33 23.5-56.5T280-240q33 0 56.5 23.5T360-160q0 33-23.5 56.5T280-80Zm400 0q-33 0-56.5-23.5T600-160q0-33 23.5-56.5T680-240q33 0 56.5 23.5T760-160q0 33-23.5 56.5T680-80ZM208-800h590q23 0 35 20.5t1 41.5L692-482q-11 20-29.5 31T622-440H324l-44 80h480v80H280q-45 0-68-39.5t-2-78.5l54-98-144-304H40v-80h130l38 80Z" />
-								</svg>
-								<span class="pl-2">Adicionar produto</span>
-							</h5>
-							<p class="card-text">Adicione novos produtos em seu estoque.</p>
-							<a href="adicionar_produto.php" class="btn btn-sm btn-primary">Cadastrar produto</a>
-						</div>
-					</div>
-				</li>
-				<li class="col-sm-6 mt-4">
-					<div class="card h-100">
-						<div class="card-body">
-							<h5 class="card-title d-flex align-items-center">
-								<svg class="flex-shrink-0" style="height: 1em" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" fill="currentColor">
-									<path d="M80-160v-160h160v160H80Zm240 0v-160h560v160H320ZM80-400v-160h160v160H80Zm240 0v-160h560v160H320ZM80-640v-160h160v160H80Zm240 0v-160h560v160H320Z" />
-								</svg>
-								<span class="pl-2">Lista de produtos</span>
-							</h5>
-							<p class="card-text">Edite, liste e adicione exclua seus produtos.</p>
-							<a href="listar_produto.php" class="btn btn-sm btn-primary">Listar produtos</a>
-						</div>
-					</div>
-				</li>
-				<li class="col-sm-6 mt-4">
-					<div class="card h-100">
-						<div class="card-body">
-							<h5 class="card-title d-flex align-items-center">
-								<svg class="flex-shrink-0" style="height: 1em" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" fill="currentColor">
-								<path d="m260-520 220-360 220 360H260ZM700-80q-75 0-127.5-52.5T520-260q0-75 52.5-127.5T700-440q75 0 127.5 52.5T880-260q0 75-52.5 127.5T700-80Zm-580-20v-320h320v320H120Z" />
-								</svg>
-								<span class="pl-2">Adicionar categorias</span>
-							</h5>
-							<p class="card-text">Adicione novas categorias para seus produtos.</p>
-							<a href="adicionar_categoria.php" class="btn btn-sm btn-primary">Adicionar categoria</a>
-						</div>
-					</div>
-				</li>
-				<li class="col-sm-6 mt-4">
-					<div class="card h-100">
-						<div class="card-body">
-							<h5 class="card-title d-flex align-items-center">
-								<svg class="flex-shrink-0" style="height: 1em" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" fill="currentColor">
-									<path d="M80-140v-320h320v320H80Zm140-420 220-360 220 360H220ZM863-42 757-148q-21 14-45.5 21t-51.5 7q-75 0-127.5-52.5T480-300q0-75 52.5-127.5T660-480q75 0 127.5 52.5T840-300q0 26-7 50.5T813-204L919-98l-56 56ZM660-200q42 0 71-29t29-71q0-42-29-71t-71-29q-42 0-71 29t-29 71q0 42 29 71t71 29Z" />
-								</svg>
-								<span class="pl-2">Listar categorias</span>
-							</h5>
-							<p class="card-text">Edite, liste e adicione exclua suas categorias cadastradas.</p>
-							<a href="listar_categoria.php" class="btn btn-sm btn-primary">Listar categorias</a>
-						</div>
-					</div>
-				</li>
-				<li class="col-sm-6 mt-4">
-					<div class="card h-100">
-						<div class="card-body">
-							<h5 class="card-title d-flex align-items-center">
-								<svg class="flex-shrink-0" style="height: 1em" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" fill="currentColor">
-									<path d="M720-400v-120H600v-80h120v-120h80v120h120v80H800v120h-80Zm-360-80q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM40-160v-112q0-34 17.5-62.5T104-378q62-31 126-46.5T360-440q66 0 130 15.5T616-378q29 15 46.5 43.5T680-272v112H40Z" />
-								</svg>
-								<span class="pl-2">Adicionar Fornecedores</span>
-							</h5>
-							<p class="card-text">Adicione novos fornecedores de seus produtos.</p>
-							<a href="adicionar_fornecedor.php" class="btn btn-sm btn-primary">Adicionar fornecedor</a>
-						</div>
-					</div>
-				</li>
-				<li class="col-sm-6 mt-4">
-					<div class="card h-100">
-						<div class="card-body">
-							<h5 class="card-title d-flex align-items-center">
-								<svg class="flex-shrink-0" style="height: 1em" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" fill="currentColor">
-									<path d="M0-240v-63q0-43 44-70t116-27q13 0 25 .5t23 2.5q-14 21-21 44t-7 48v65H0Zm240 0v-65q0-32 17.5-58.5T307-410q32-20 76.5-30t96.5-10q53 0 97.5 10t76.5 30q32 20 49 46.5t17 58.5v65H240Zm540 0v-65q0-26-6.5-49T754-397q11-2 22.5-2.5t23.5-.5q72 0 116 26.5t44 70.5v63H780ZM160-440q-33 0-56.5-23.5T80-520q0-34 23.5-57t56.5-23q34 0 57 23t23 57q0 33-23 56.5T160-440Zm640 0q-33 0-56.5-23.5T720-520q0-34 23.5-57t56.5-23q34 0 57 23t23 57q0 33-23 56.5T800-440Zm-320-40q-50 0-85-35t-35-85q0-51 35-85.5t85-34.5q51 0 85.5 34.5T600-600q0 50-34.5 85T480-480Z" />
-								</svg>
-								<span class="pl-2">Listar fornecedores</span>
-							</h5>
-							<p class="card-text">Edite, liste e adicione exclua seus fornecedores já cadastrados.</p>
-							<a href="listar_fornecedor.php" class="btn btn-sm btn-primary">Listar fornecedores</a>
-						</div>
-					</div>
-				</li>
-				<li class="col-sm-6 mt-4">
-					<div class="card h-100">
-						<div class="card-body">
-							<h5 class="card-title d-flex align-items-center">
-								<svg class="flex-shrink-0" style="height: 1em" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" fill="currentColor">
-									<path d="M80-140v-320h320v320H80Zm140-420 220-360 220 360H220ZM863-42 757-148q-21 14-45.5 21t-51.5 7q-75 0-127.5-52.5T480-300q0-75 52.5-127.5T660-480q75 0 127.5 52.5T840-300q0 26-7 50.5T813-204L919-98l-56 56ZM660-200q42 0 71-29t29-71q0-42-29-71t-71-29q-42 0-71 29t-29 71q0 42 29 71t71 29Z" />
-								</svg>
-								<span class="pl-2">Cadastrar usuários</span>
-							</h5>
-							<p class="card-text">Cadastre novos usuários no sistema.</p>
-							<a href="adicionar_fornecedor.php" class="btn btn-sm btn-primary">Cadastrar novo</a>
-						</div>
-					</div>
-				</li>
-				<li class="col-sm-6 mt-4">
-					<div class="card h-100">
-						<div class="card-body">
-							<h5 class="card-title d-flex align-items-center">
-								<svg class="flex-shrink-0" style="height: 1em" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" fill="currentColor">
-									<path d="M622-144 484-282l56-56 82 82 202-202 56 56-258 258ZM400-480q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47Zm114 52L368-282l122 122H80v-112q0-33 17-62t47-44q51-26 115-44t141-18q30 0 58.5 3t55.5 9Z" />
-								</svg>
-								<span class="pl-2">Aprovar usuários</span>
-							</h5>
-							<p class="card-text">Aprove os usuários que se cadastraram no sistema por meio externo.</p>
-							<a href="listar_fornecedor.php" class="btn btn-sm btn-primary">Exibir lista</a>
-						</div>
-					</div>
-				</li>
-			</ul>
-		</div>
+	<body class="bg-gray-700 text-gray-50 min-h-dvh">
+		<main>
+			<header class="pt-8">
+				<hgroup class="flex flex-col text-center gap-2">
+					<h1 class="text-3xl font-bold leading-none">Formulário de cadastro</h1>
+					<h2 class="text-xl font-semibold leading-normal">Cadastrar produto</h2>
+				</hgroup>
+			</header>
 
-		<script src="https://kit.fontawesome.com/cae6919cdb.js"></script>
-		<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
-		<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
-		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+			<form class="container flex flex-col pt-8 px-4 gap-4" action="inserir_produto.php" method="post">
+				<div class="w-full">
+					<div class="relative w-full h-10">
+						<input name="nome" class="
+							peer w-full h-full bg-transparent border border-t-transparent focus:border-t-transparent
+							outline outline-0 focus:outline-0
+							placeholder-shown:border placeholder-shown:border-slate-400 placeholder-shown:border-t-slate-400
+							text-sm px-3 py-2.5 rounded-[7px] border-slate-400 focus:border-2 focus:border-slate-200
+							transition-all
+						" placeholder="">
+						<label class="
+							flex w-full h-full truncate pointer-events-none absolute -top-1.5 left-0 select-none !overflow-visible
+							text-gray-400 text-xs leading-tight peer-focus:leading-tight
+							peer-placeholder-shown:text-blue-gray-500 peer-placeholder-shown:text-sm
+							peer-focus:text-xs
+							before:content[' '] before:block before:box-border before:w-2.5 before:h-1.5 before:mt-[6.5px] before:mr-1
+							peer-placeholder-shown:before:border-transparent before:rounded-tl-md before:border-t peer-focus:before:border-t-2 before:border-l peer-focus:before:border-l-2 before:pointer-events-none peer-disabled:before:border-transparent
+							after:content[' '] after:block after:flex-grow after:box-border after:w-2.5 after:h-1.5 after:mt-[6.5px] after:ml-1 peer-placeholder-shown:after:border-transparent after:rounded-tr-md after:border-t peer-focus:after:border-t-2 after:border-r
+							peer-focus:after:border-r-2 after:pointer-events-none
+							peer-placeholder-shown:leading-[3.75] peer-focus:text-slate-200 before:border-blue-gray-200 peer-focus:before:!border-slate-200 peer-focus:after:!border-slate-200
+							transition-all before:transition-all after:transition-all
+						">
+							Nome do produto
+						</label>
+					</div>
+				</div>
+
+				<div class="w-full">
+					<div class="relative w-full h-10">
+						<input name="numero" class="
+							peer w-full h-full bg-transparent border border-t-transparent focus:border-t-transparent
+							outline outline-0 focus:outline-0
+							placeholder-shown:border placeholder-shown:border-slate-400 placeholder-shown:border-t-slate-400
+							text-sm px-3 py-2.5 rounded-[7px] border-slate-400 focus:border-2 focus:border-slate-200
+							transition-all
+						" placeholder="">
+						<label class="
+							flex w-full h-full truncate pointer-events-none absolute -top-1.5 left-0 select-none !overflow-visible
+							text-gray-400 text-xs leading-tight peer-focus:leading-tight
+							peer-placeholder-shown:text-blue-gray-500 peer-placeholder-shown:text-sm
+							peer-focus:text-xs
+							before:content[' '] before:block before:box-border before:w-2.5 before:h-1.5 before:mt-[6.5px] before:mr-1
+							peer-placeholder-shown:before:border-transparent before:rounded-tl-md before:border-t peer-focus:before:border-t-2 before:border-l peer-focus:before:border-l-2 before:pointer-events-none peer-disabled:before:border-transparent
+							after:content[' '] after:block after:flex-grow after:box-border after:w-2.5 after:h-1.5 after:mt-[6.5px] after:ml-1 peer-placeholder-shown:after:border-transparent after:rounded-tr-md after:border-t peer-focus:after:border-t-2 after:border-r
+							peer-focus:after:border-r-2 after:pointer-events-none
+							peer-placeholder-shown:leading-[3.75] peer-focus:text-slate-200 before:border-blue-gray-200 peer-focus:before:!border-slate-200 peer-focus:after:!border-slate-200
+							transition-all before:transition-all after:transition-all
+						">
+							Número do produto
+						</label>
+					</div>
+				</div>
+
+				<div class="relative w-full h-12">
+					<select class="
+						peer h-full w-full rounded-md
+						border border-slate-400 border-t-transparent bg-transparent px-3 py-2.5
+						text-gray-200 text-sm font-normal outline outline-0
+						placeholder-shown:border placeholder-shown:border-blue-gray-200
+						placeholder-shown:border-t-slate-400
+						focus:border-slate-200 focus:border-2 focus:border-t-transparent focus:outline-0
+						transition-all
+					" required>
+						<option value="" hidden disabled selected>Selecione uma categoria</option>
+						<?php
+							include "conexao.php";
+
+							$query = mysqli_query($connection, "SELECT * FROM categoria");
+
+							if(mysqli_num_rows($query)){
+								foreach($query as $row){
+									$id = $row["id_categoria"];
+									$categoria = $row["categoria"];
+									echo "<option class=\"bg-gray-800\" value=\"$id\">$categoria</option>";
+								}
+							}
+						?>
+					</select>
+					<label class="
+						text-slate-200
+						before:content[' '] after:content[' '] pointer-events-none absolute left-0 -top-1.5 flex h-full w-full select-none text-xs font-normal leading-tight
+						before:pointer-events-none before:mt-[6.5px] before:mr-1 before:box-border before:block before:h-1.5 before:w-2.5 before:rounded-tl-md before:border-t before:border-l
+						before:border-slate-400 before:transition-all
+						after:pointer-events-none after:mt-[6.5px] after:ml-1 after:box-border after:block after:h-1.5 after:w-2.5 after:flex-grow after:rounded-tr-md after:border-t after:border-r
+						after:border-slate-400 after:transition-all peer-placeholder-shown:text-sm
+						peer-placeholder-shown:leading-[3.75]
+						peer-placeholder-shown:text-slate-200 peer-placeholder-shown:before:border-transparent peer-placeholder-shown:after:border-transparent
+						peer-focus:text-xs peer-focus:leading-tight peer-focus:text-slate-200 peer-focus:before:border-t-2 peer-focus:before:border-l-2
+						peer-focus:before:border-slate-200 peer-focus:after:border-t-2 peer-focus:after:border-r-2
+						peer-focus:after:border-slate-200 peer-disabled:text-transparent peer-disabled:before:border-transparent peer-disabled:after:border-transparent
+						peer-disabled:peer-placeholder-shown:text-slate-200
+						transition-all
+					">
+						Categoria
+					</label>
+				</div>
+
+				<div class="w-full">
+					<div class="relative w-full h-10">
+						<input name="numero" class="
+							peer w-full h-full bg-transparent border border-t-transparent focus:border-t-transparent
+							outline outline-0 focus:outline-0
+							placeholder-shown:border placeholder-shown:border-slate-400 placeholder-shown:border-t-slate-400
+							text-sm px-3 py-2.5 rounded-[7px] border-slate-400 focus:border-2 focus:border-slate-200
+							transition-all
+						" placeholder="">
+						<label class="
+							flex w-full h-full truncate pointer-events-none absolute -top-1.5 left-0 select-none !overflow-visible
+							text-gray-400 text-xs leading-tight peer-focus:leading-tight
+							peer-placeholder-shown:text-blue-gray-500 peer-placeholder-shown:text-sm
+							peer-focus:text-xs
+							before:content[' '] before:block before:box-border before:w-2.5 before:h-1.5 before:mt-[6.5px] before:mr-1
+							peer-placeholder-shown:before:border-transparent before:rounded-tl-md before:border-t peer-focus:before:border-t-2 before:border-l peer-focus:before:border-l-2 before:pointer-events-none peer-disabled:before:border-transparent
+							after:content[' '] after:block after:flex-grow after:box-border after:w-2.5 after:h-1.5 after:mt-[6.5px] after:ml-1 peer-placeholder-shown:after:border-transparent after:rounded-tr-md after:border-t peer-focus:after:border-t-2 after:border-r
+							peer-focus:after:border-r-2 after:pointer-events-none
+							peer-placeholder-shown:leading-[3.75] peer-focus:text-slate-200 before:border-blue-gray-200 peer-focus:before:!border-slate-200 peer-focus:after:!border-slate-200
+							transition-all before:transition-all after:transition-all
+						">
+							Número do produto
+						</label>
+					</div>
+				</div>
+
+				<div class="flex flex-col gap-1">
+					<label>Categoria</label>
+					<select class="block appearance-none w-full py-1 px-2 mb-1 text-base leading-normal bg-white text-gray-800 border border-gray-200 rounded" name="categoria">
+
+					</select>
+				</div>
+				<div class="flex flex-col gap-1">
+					<label>Quantidade</label>
+					<input type="number" class="block appearance-none w-full py-1 px-2 mb-1 text-base leading-normal bg-white text-gray-800 border border-gray-200 rounded" name="quantidade" placeholder="Insira a quantidade disponível">
+				</div>
+				<div class="flex flex-col gap-1">
+					<label>Fornecedor</label>
+					<select class="block appearance-none w-full py-1 px-2 mb-1 text-base leading-normal bg-white text-gray-800 border border-gray-200 rounded" name="fornecedor">
+
+					</select>
+				</div>
+
+				<div style="text-align: right;">
+					<a href="menu.php" role="button" class="inline-block align-middle text-center select-none border font-normal whitespace-no-wrap rounded  no-underline bg-blue-600 text-white hover:bg-blue-600 py-1 px-2 leading-tight text-xs ">Voltar ao menu</a>
+					<button type="submit" id="botao" class="inline-block align-middle text-center select-none border font-normal whitespace-no-wrap rounded  no-underline bg-green-500 text-white hover:green-600 py-1 px-2 leading-tight text-xs ">Cadastrar</button>
+				</div>
+			</form>
+		</main>
 	</body>
 </html>
