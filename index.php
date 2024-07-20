@@ -2,9 +2,7 @@
 
 session_start();
 
-$usuario = $_SESSION["usuario"];
-
-if(!isset($usuario)) header("Location: login.php");
+if(!isset($_SESSION["usuario"])) header("Location: login.php");
 
 ?>
 

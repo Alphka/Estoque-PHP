@@ -2,9 +2,7 @@
 
 session_start();
 
-$usuario = $_SESSION["usuario"];
-
-if(!isset($usuario)){
+if(!isset($_SESSION["usuario"])){
 	http_response_code(401);
 	header("Location: ../login.php");
 	return;
@@ -36,12 +34,6 @@ mysqli_close($connection);
 		<link rel="stylesheet" href="../styles/global.css">
 		<script src="https://unpkg.com/tabulator-tables@4.1.4/dist/js/tabulator.min.js"></script>
 		<link rel="stylesheet" href="https://unpkg.com/tabulator-tables@4.1.4/dist/css/tabulator.min.css">
-
-		<style>
-			.tabulator .tabulator-header input{
-				color: white;
-			}
-		</style>
 	</head>
 	<body class="bg-gray-700 text-gray-50 min-h-dvh">
 		<main>
@@ -76,8 +68,8 @@ mysqli_close($connection);
 						{ field: "fornecedor", title: "Fornecedor", headerFilter: "input" },
 						{ field: "quantidade", title: "Quantidade", width: 120, headerFilter: "input", hozAlign: "center" },
 						{ title: "Ações", width: 108, headerSort: false, formatter: cell => (
-							`<a href="editar.php?id=${cell.getRow().getData().id}" class="bg-yellow-600 text-white inline-flex items-center text-center px-1 rounded" role="button">Editar</button>` +
-							`<a href="excluir.php?id=${cell.getRow().getData().id}" class="bg-red-600 text-white inline-flex items-center text-center px-1 ml-1 rounded" role="button">Excluir</button>`
+							`<a href="editar.php?id=${cell.getRow().getData().id}" class="bg-yellow-600 text-white inline-flex items-center text-center px-1 rounded select-none" role="button">Editar</button>` +
+							`<a href="excluir.php?id=${cell.getRow().getData().id}" class="bg-red-600 text-white inline-flex items-center text-center px-1 ml-1 rounded select-none" role="button">Excluir</button>`
 						), columnVertAlign: "center", hozAlign: "center" }
 					],
 					locale: "pt-BR",
