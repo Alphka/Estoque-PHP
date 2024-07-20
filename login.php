@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="pt=BR">
 	<head>
-	<meta charset="UTF-8">
+		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>Login - Estoque</title>
 		<script src="https://cdn.tailwindcss.com"></script>
@@ -46,6 +46,7 @@
 							transition-all before:transition-all after:transition-all
 						"
 						for="nome"
+						aria-hidden="true"
 					>
 						Nome de usuário
 					</label>
@@ -80,20 +81,22 @@
 							transition-all before:transition-all after:transition-all
 						"
 						for="senha"
+						aria-hidden="true"
 					>
 						Senha
 					</label>
 				</div>
 
 				<button
-					class="bg-blue-500 hover:opacity-95 hover:shadow focus:bg-blue-400 flex items-center px-3 py-1 w-fit mx-auto rounded select-none text-center"
+					class="bg-blue-500 hover:opacity-95 hover:shadow focus:bg-blue-600 flex items-center px-3 py-1 w-fit mx-auto rounded select-none text-center"
+					aria-label="Clique para entrar na sua conta"
 					type="submit"
 				>
 					Entrar
 				</button>
 			</form>
 
-			<p class="text-center mt-4">
+			<p class="text-center pt-4 mb-4">
 				Não possui cadastro?
 				<a class="underline font-semibold text-gray-50 hover:text-opacity-90 focus:text-gray-200" autofocus href="register.php">Registre-se</a>!
 			</p>

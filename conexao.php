@@ -6,14 +6,10 @@ $user = "root";
 $password = "";
 $dbName = "estoque";
 
-$connection = mysqli_connect($host, $user, $password, $dbName, $port) or die("Could not connect to mysql database");
+$connection = mysqli_connect($host, $user, $password, $dbName, $port);
 
-if($connection){
-	// echo "Conectado com sucesso";
-	$conectou = true;
-}else{
-	// echo "Falha na conexão";
-	$conectou = false;
+if($connection->connect_error){
+	die("Falha ao conectar ao banco de dados: " . $conn->connect_error);
 }
 
 ?>

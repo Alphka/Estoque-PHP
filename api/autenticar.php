@@ -10,10 +10,11 @@ if(isset($nome) && isset($senha)){
 
 	include "../conexao.php";
 
-	if($conectou){
+	if($connection){
 		$query = mysqli_query($connection, "SELECT * FROM usuarios WHERE nome = '$nome' and senha = '$senha'");
 
 		if(mysqli_num_rows($query) && mysqli_fetch_array($query)){
+			mysqli_close($connection);
 			header("Location: ../index.php");
 			return;
 		}
