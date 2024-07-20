@@ -4,9 +4,7 @@ session_start();
 
 $usuario = $_SESSION["usuario"];
 
-if(!isset($usuario)){
-	header("Location: login.php");
-}
+if(!isset($usuario)) header("Location: login.php");
 
 ?>
 
@@ -17,11 +15,7 @@ if(!isset($usuario)){
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>Menu - Estoque</title>
 		<script src="https://cdn.tailwindcss.com"></script>
-		<style>
-			:root {
-				color-scheme: dark;
-			}
-		</style>
+		<link rel="stylesheet" href="./styles/global.css">
 	</head>
 	<body class="bg-gray-700 text-gray-50 min-h-dvh">
 		<main>
@@ -33,7 +27,7 @@ if(!isset($usuario)){
 			</header>
 
 			<div class="container pt-8 px-4 mx-auto">
-				<ul class="w-full grid grid-cols-1 md:grid-cols-2 ld:grid-cols-3 gap-4 list-none">
+				<ul class="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mb-4 gap-4 list-none">
 					<li class="bg-gray-600 shadow-sm rounded">
 						<div class="flex flex-col items-start p-4 gap-2 h-full">
 							<div class="flex-grow flex flex-col gap-1">
@@ -45,7 +39,7 @@ if(!isset($usuario)){
 								</h5>
 								<p class="text-base">Adicione novos produtos em seu estoque.</p>
 							</div>
-							<a href="adicionar_produto.php" class="inline-block text-sm text-white bg-blue-500 hover:opacity-95 hover:shadow focus:bg-blue-400 px-3 py-1 rounded select-none" role="button">Cadastrar produto</a>
+							<a href="produtos/adicionar.php" class="inline-block text-sm text-white bg-blue-500 hover:opacity-95 hover:shadow focus:bg-blue-400 px-3 py-1 rounded select-none" role="button">Cadastrar produto</a>
 						</div>
 					</li>
 					<li class="bg-gray-600 shadow-sm rounded">
@@ -59,7 +53,7 @@ if(!isset($usuario)){
 								</h5>
 								<p class="text-base">Edite, liste e adicione exclua seus produtos.</p>
 							</div>
-							<a href="listar_produto.php" class="inline-block text-sm text-white bg-blue-500 hover:opacity-95 hover:shadow focus:bg-blue-400 px-3 py-1 rounded select-none" role="button">Listar produtos</a>
+							<a href="produtos/listar.php" class="inline-block text-sm text-white bg-blue-500 hover:opacity-95 hover:shadow focus:bg-blue-400 px-3 py-1 rounded select-none" role="button">Listar produtos</a>
 						</div>
 					</li>
 					<li class="bg-gray-600 shadow-sm rounded">
@@ -73,7 +67,7 @@ if(!isset($usuario)){
 								</h5>
 								<p class="text-base">Adicione novas categorias para seus produtos.</p>
 							</div>
-							<a href="adicionar_categoria.php" class="inline-block text-sm text-white bg-blue-500 hover:opacity-95 hover:shadow focus:bg-blue-400 px-3 py-1 rounded select-none" role="button">Adicionar categoria</a>
+							<a href="categorias/adicionar.php" class="inline-block text-sm text-white bg-blue-500 hover:opacity-95 hover:shadow focus:bg-blue-400 px-3 py-1 rounded select-none" role="button">Adicionar categoria</a>
 						</div>
 					</li>
 					<li class="bg-gray-600 shadow-sm rounded">
@@ -87,7 +81,7 @@ if(!isset($usuario)){
 								</h5>
 								<p class="text-base">Edite, liste e adicione exclua suas categorias cadastradas.</p>
 							</div>
-							<a href="listar_categoria.php" class="inline-block text-sm text-white bg-blue-500 hover:opacity-95 hover:shadow focus:bg-blue-400 px-3 py-1 rounded select-none" role="button">Listar categorias</a>
+							<a href="categorias/listar.php" class="inline-block text-sm text-white bg-blue-500 hover:opacity-95 hover:shadow focus:bg-blue-400 px-3 py-1 rounded select-none" role="button">Listar categorias</a>
 						</div>
 					</li>
 					<li class="bg-gray-600 shadow-sm rounded">
@@ -101,7 +95,7 @@ if(!isset($usuario)){
 								</h5>
 								<p class="text-base">Adicione novos fornecedores de seus produtos.</p>
 							</div>
-							<a href="adicionar_fornecedor.php" class="inline-block text-sm text-white bg-blue-500 hover:opacity-95 hover:shadow focus:bg-blue-400 px-3 py-1 rounded select-none" role="button">Adicionar fornecedor</a>
+							<a href="fornecedores/adicionar.php" class="inline-block text-sm text-white bg-blue-500 hover:opacity-95 hover:shadow focus:bg-blue-400 px-3 py-1 rounded select-none" role="button">Adicionar fornecedor</a>
 						</div>
 					</li>
 					<li class="bg-gray-600 shadow-sm rounded">
@@ -115,7 +109,7 @@ if(!isset($usuario)){
 								</h5>
 								<p class="card-text">Edite, liste e adicione exclua seus fornecedores já cadastrados.</p>
 							</div>
-							<a href="listar_fornecedor.php" class="inline-block text-sm text-white bg-blue-500 hover:opacity-95 hover:shadow focus:bg-blue-400 px-3 py-1 rounded select-none" role="button">Listar fornecedores</a>
+							<a href="fornecedores/listar.php" class="inline-block text-sm text-white bg-blue-500 hover:opacity-95 hover:shadow focus:bg-blue-400 px-3 py-1 rounded select-none" role="button">Listar fornecedores</a>
 						</div>
 					</li>
 
@@ -130,7 +124,7 @@ if(!isset($usuario)){
 								</h5>
 								<p class="text-base">Cadastre novos usuários no sistema.</p>
 							</div>
-							<a href="adicionar_fornecedor.php" class="inline-block text-sm text-white bg-blue-500 hover:opacity-95 hover:shadow focus:bg-blue-400 px-3 py-1 rounded select-none" role="button">Cadastrar novo</a>
+							<a href="usuarios/adicionar.php" class="inline-block text-sm text-white bg-blue-500 hover:opacity-95 hover:shadow focus:bg-blue-400 px-3 py-1 rounded select-none" role="button">Cadastrar novo</a>
 						</div>
 					</li>
 					<li class="bg-gray-600 shadow-sm rounded">
@@ -144,7 +138,7 @@ if(!isset($usuario)){
 								</h5>
 								<p class="card-text">Aprove os usuários que se cadastraram no sistema por meio externo.</p>
 							</div>
-							<a href="listar_fornecedor.php" class="inline-block text-sm text-white bg-blue-500 hover:opacity-95 hover:shadow focus:bg-blue-400 px-3 py-1 rounded select-none" role="button">Exibir lista</a>
+							<a href="usuarios/listar.php" class="inline-block text-sm text-white bg-blue-500 hover:opacity-95 hover:shadow focus:bg-blue-400 px-3 py-1 rounded select-none" role="button">Exibir lista</a>
 						</div>
 					</li>
 				</ul>
