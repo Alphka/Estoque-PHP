@@ -9,11 +9,11 @@ $dbName = "estoque";
 $connection = mysqli_connect($host, $user, $password, $dbName, $port) or die("Could not connect to mysql database");
 
 if($connection){
-	echo "Conectado com sucesso";
-	$conectou = false;
-}else{
-	echo "Falha na conexão";
+	// echo "Conectado com sucesso";
 	$conectou = true;
+}else{
+	// echo "Falha na conexão";
+	$conectou = false;
 }
 
 ?>

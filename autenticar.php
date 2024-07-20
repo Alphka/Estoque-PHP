@@ -18,12 +18,12 @@ if(isset($usuario) && isset($senha)){
 		$query = mysqli_query($connection, $sql);
 
 		if(mysqli_num_rows($query) && mysqli_fetch_array($query)){
-			header("Location: menu.php");
+			header("Location: index.php");
 			return;
 		}
 	}
 }
 
-header("Location: index.php")
+header("Location: login.php");
 
 ?>
