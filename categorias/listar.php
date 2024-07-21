@@ -10,12 +10,12 @@ if(!isset($_SESSION["usuario"])){
 
 include "../conexao.php";
 
-$produtos = mysqli_query($connection, "SELECT * FROM estoque ORDER BY nome ASC");
-$produtosArray = array();
+$categorias = mysqli_query($connection, "SELECT * FROM categoria ORDER BY nome ASC");
+$categoriasArray = array();
 
-if(mysqli_num_rows($produtos) > 0){
-	while($produto = $produtos->fetch_assoc()){
-		$produtosArray[] = $produto;
+if(mysqli_num_rows($categorias) > 0){
+	while($categoria = $categorias->fetch_assoc()){
+		$categoriasArray[] = $categoria;
 	}
 }
 
@@ -29,7 +29,7 @@ mysqli_close($connection);
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<meta name="color-scheme" content="dark">
-		<title>Lista de produtos - Estoque</title>
+		<title>Lista de categorias - Estoque</title>
 		<script src="https://cdn.tailwindcss.com"></script>
 		<link rel="stylesheet" href="../styles/global.css">
 		<link rel="stylesheet" href="../styles/tabulator.css">
@@ -38,7 +38,7 @@ mysqli_close($connection);
 		<main>
 			<header class="pt-8">
 				<hgroup class="flex flex-col text-center gap-2">
-					<h1 class="text-3xl font-bold leading-none">Lista de produtos</h1>
+					<h1 class="text-3xl font-bold leading-none">Lista de categorias</h1>
 				</hgroup>
 			</header>
 
@@ -47,10 +47,10 @@ mysqli_close($connection);
 			<script src="https://unpkg.com/tabulator-tables@4.1.4/dist/js/tabulator.min.js"></script>
 			<script>
 				(() => {
-				const produtos = <?php echo json_encode($produtosArray) ?>
+				const categorias = <?php echo json_encode($categoriasArray) ?>
 
 				const table = new Tabulator("#lista", {
-					data: produtos,
+					data: categorias,
 					layout: "fitColumns",
 					history: true,
 					pagination: "local",
@@ -60,12 +60,8 @@ mysqli_close($connection);
 						{ column: "id", dir: "asc" }
 					],
 					columns: [
-						{ field: "id", title: "ID", width: 20, headerFilter: "input", hozAlign: "center" },
+						{ field: "id", title: "ID", width: 120, headerFilter: "input", hozAlign: "center" },
 						{ field: "nome", title: "Nome", headerFilter: "input" },
-						{ field: "numero", title: "Número", width: 90, headerFilter: "input", hozAlign: "center" },
-						{ field: "categoria", title: "Categoria", headerFilter: "input" },
-						{ field: "fornecedor", title: "Fornecedor", headerFilter: "input" },
-						{ field: "quantidade", title: "Quantidade", width: 120, headerFilter: "input", hozAlign: "center" },
 						{ title: "Ações", width: 108, headerSort: false, formatter: cell => (
 							`<a href="editar.php?id=${cell.getRow().getData().id}" class="bg-yellow-600 hover:opacity-90 hover:shadow focus:bg-yellow-700 text-white inline-flex items-center text-center px-1 rounded select-none" role="button">Editar</button>` +
 							`<a href="excluir.php?id=${cell.getRow().getData().id}" class="bg-red-600 hover:opacity-90 hover:shadow focus:bg-red-700 text-white inline-flex items-center text-center px-1 ml-1 rounded select-none" role="button">Excluir</button>`
