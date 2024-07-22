@@ -16,7 +16,7 @@
 				</hgroup>
 			</header>
 
-			<form class="container flex flex-col pt-8 px-4 mx-auto gap-4" action="api/cadastrar.php" method="POST">
+			<form class="container max-w-md flex flex-col pt-8 px-4 mx-auto gap-4" action="api/cadastrar.php" method="POST">
 				<div class="relative h-10">
 					<input
 						id="nome"
@@ -57,7 +57,7 @@
 					<input
 						id="email"
 						name="email"
-						type="text"
+						type="email"
 						autocomplete="email"
 						class="
 							peer w-full h-full bg-transparent border border-t-transparent focus:border-t-transparent
@@ -168,12 +168,43 @@
 
 				<button
 					class="bg-blue-500 hover:opacity-95 hover:shadow focus:bg-blue-600 flex items-center px-3 py-1 w-fit mx-auto rounded select-none text-center"
-					aria-label="Clique para cadastrar a sua conta"
+					aria-label="Clique para enviar o formulário de cadastro"
 					type="submit"
 				>
 					Cadastrar
 				</button>
 			</form>
+
+			<script>
+				(() => {
+				const form = document.forms[0]
+				const nomeElement = /** @type {HTMLInputElement} */ (form.elements.namedItem("nome"))
+				const emailElement = /** @type {HTMLInputElement} */ (form.elements.namedItem("email"))
+				const senhaElement = /** @type {HTMLInputElement} */ (form.elements.namedItem("senha"))
+
+				let nomeChangeTimestamp, senhaChangeTimestamp
+
+				function fixRenderInputs(elementToFocus = form.querySelector('[type="submit"]')){
+					nomeElement.focus()
+					emailElement.focus()
+					senhaElement.focus()
+					elementToFocus?.focus()
+				}
+
+				const interval = setInterval(fixRenderInputs)
+				setTimeout(() => clearInterval(interval), 10)
+
+				nomeElement.addEventListener("change", function(event){
+					nomeChangeTimestamp = event.timeStamp
+					if(nomeChangeTimestamp - senhaChangeTimestamp < 10) fixRenderInputs()
+				})
+
+				senhaElement.addEventListener("change", function(event){
+					senhaChangeTimestamp = event.timeStamp
+					if(senhaChangeTimestamp - nomeChangeTimestamp < 10) fixRenderInputs()
+				})
+				})()
+			</script>
 		</main>
 	</body>
 </html>

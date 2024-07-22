@@ -30,7 +30,7 @@ if(!isset($_SESSION["usuario"])){
 			</header>
 
 			<form
-				class="container flex flex-col pt-8 px-4 mx-auto gap-4"
+				class="container max-w-md flex flex-col pt-8 px-4 mx-auto gap-4"
 				autocomplete="off"
 				action="../api/fornecedores/adicionar.php"
 				method="post"

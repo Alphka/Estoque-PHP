@@ -16,7 +16,7 @@
 				</hgroup>
 			</header>
 
-			<form class="container flex flex-col pt-8 px-4 mx-auto gap-4" action="api/autenticar.php" method="POST">
+			<form class="container max-w-md flex flex-col pt-8 px-4 mx-auto gap-4" action="api/autenticar.php" method="POST">
 				<div class="relative h-10">
 					<input
 						id="nome"
@@ -30,6 +30,7 @@
 							text-sm px-3 py-2.5 rounded-md border-slate-400 focus:border-2 focus:border-slate-200
 							transition-all
 						"
+						autofocus
 						placeholder
 						required
 					>
@@ -97,6 +98,35 @@
 					Entrar
 				</button>
 			</form>
+
+			<script>
+				(() => {
+				const form = document.forms[0]
+				const nomeElement = /** @type {HTMLInputElement} */ (form.elements.namedItem("nome"))
+				const senhaElement = /** @type {HTMLInputElement} */ (form.elements.namedItem("senha"))
+
+				let nomeChangeTimestamp, senhaChangeTimestamp
+
+				function fixRenderInputs(elementToFocus = form.querySelector('[type="submit"]')){
+					nomeElement.focus()
+					senhaElement.focus()
+					elementToFocus?.focus()
+				}
+
+				const interval = setInterval(fixRenderInputs)
+				setTimeout(() => clearInterval(interval), 30)
+
+				nomeElement.addEventListener("change", function(event){
+					nomeChangeTimestamp = event.timeStamp
+					if(nomeChangeTimestamp - senhaChangeTimestamp < 10) fixRenderInputs()
+				})
+
+				senhaElement.addEventListener("change", function(event){
+					senhaChangeTimestamp = event.timeStamp
+					if(senhaChangeTimestamp - nomeChangeTimestamp < 10) fixRenderInputs()
+				})
+				})()
+			</script>
 
 			<p class="text-center pt-4 mb-4">
 				Não possui cadastro?
