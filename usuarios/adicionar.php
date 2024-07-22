@@ -1,28 +1,45 @@
+<?php
+
+session_start();
+
+if(!isset($_SESSION["usuario"])){
+	http_response_code(401);
+	header("Location: ../login.php");
+	return;
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="pt=BR">
 	<head>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<title>Cadastro - Estoque</title>
+		<title>Cadastrar usuário - Estoque</title>
 		<script src="https://cdn.tailwindcss.com"></script>
-		<link rel="stylesheet" href="./styles/global.css">
+		<link rel="stylesheet" href="../styles/global.css">
 	</head>
 	<body class="bg-gray-700 text-gray-50 min-h-dvh">
 		<main>
 			<header class="pt-8">
 				<hgroup class="flex flex-col text-center gap-2">
-					<h1 class="text-3xl font-bold leading-none">Cadastro</h1>
-					<h2 class="text-xl font-semibold leading-normal">Crie uma conta</h2>
+					<h1 class="text-3xl font-bold leading-none">Formulário de cadastro</h1>
+					<h2 class="text-xl font-semibold leading-normal">Cadastrar usuário</h2>
 				</hgroup>
 			</header>
 
-			<form class="container max-w-md flex flex-col pt-8 px-4 mx-auto gap-4" action="api/cadastrar.php" method="POST">
+			<form
+				class="container max-w-md flex flex-col pt-8 px-4 mx-auto gap-4"
+				action="api/usuarios/adicionar.php"
+				autocomplete="off"
+				method="POST"
+			>
 				<div class="relative h-10">
 					<input
 						id="nome"
 						name="nome"
 						type="text"
-						autocomplete="name"
+						autocomplete="no-autocomplete"
 						class="
 							peer w-full h-full bg-transparent border border-t-transparent focus:border-t-transparent
 							outline outline-0 focus:outline-0
@@ -58,7 +75,7 @@
 						id="email"
 						name="email"
 						type="email"
-						autocomplete="email"
+						autocomplete="no-autocomplete"
 						class="
 							peer w-full h-full bg-transparent border border-t-transparent focus:border-t-transparent
 							outline outline-0 focus:outline-0
@@ -125,6 +142,41 @@
 					</label>
 				</div>
 
+				<div class="relative h-10">
+					<input
+						id="confirmar-senha"
+						type="password"
+						autocomplete="no-autocomplete"
+						class="
+							peer w-full h-full bg-transparent border border-t-transparent focus:border-t-transparent
+							outline outline-0 focus:outline-0
+							placeholder-shown:border placeholder-shown:border-slate-400 placeholder-shown:border-t-slate-400
+							text-sm px-3 py-2.5 rounded-md border-slate-400 focus:border-2 focus:border-slate-200
+							transition-all
+						"
+						placeholder
+						required
+					>
+					<label
+						class="
+							flex w-full h-full truncate pointer-events-none absolute -top-1.5 left-0 select-none !overflow-visible
+							text-gray-400 text-xs leading-tight peer-focus:leading-tight
+							peer-placeholder-shown:text-gray-400 peer-placeholder-shown:text-sm
+							peer-focus:text-xs
+							before:content[' '] before:block before:box-border before:w-2.5 before:h-1.5 before:mt-[6.5px] before:mr-1
+							peer-placeholder-shown:before:border-transparent before:rounded-tl-md before:border-t peer-focus:before:border-t-2 before:border-l peer-focus:before:border-l-2 before:pointer-events-none peer-disabled:before:border-transparent
+							after:content[' '] after:block after:flex-grow after:box-border after:w-2.5 after:h-1.5 after:mt-[6.5px] after:ml-1 peer-placeholder-shown:after:border-transparent after:rounded-tr-md after:border-t peer-focus:after:border-t-2 after:border-r
+							peer-focus:after:border-r-2 after:pointer-events-none
+							peer-placeholder-shown:leading-[3.75] peer-focus:text-slate-200 before:border-slate-400 after:border-slate-400 peer-focus:before:!border-slate-200 peer-focus:after:!border-slate-200
+							transition-all before:transition-all after:transition-all
+						"
+						for="confirmar-senha"
+						aria-hidden="true"
+					>
+						Confirme sua senha
+					</label>
+				</div>
+
 				<div class="relative w-full h-12">
 					<select
 						id="nivel"
@@ -175,24 +227,24 @@
 				</button>
 			</form>
 
+
 			<script>
 				(() => {
 				const form = document.forms[0]
 				const nomeElement = /** @type {HTMLInputElement} */ (form.elements.namedItem("nome"))
-				const emailElement = /** @type {HTMLInputElement} */ (form.elements.namedItem("email"))
 				const senhaElement = /** @type {HTMLInputElement} */ (form.elements.namedItem("senha"))
+				const confirmarSenhaElement = /** @type {HTMLInputElement} */ (form.querySelector("#confirmar-senha"))
 
 				let nomeChangeTimestamp, senhaChangeTimestamp
 
 				function fixRenderInputs(elementToFocus = form.querySelector('[type="submit"]')){
 					nomeElement.focus()
-					emailElement.focus()
 					senhaElement.focus()
 					elementToFocus?.focus()
 				}
 
 				const interval = setInterval(fixRenderInputs)
-				setTimeout(() => clearInterval(interval), 10)
+				setTimeout(() => clearInterval(interval), 30)
 
 				nomeElement.addEventListener("change", function(event){
 					nomeChangeTimestamp = event.timeStamp
@@ -202,6 +254,46 @@
 				senhaElement.addEventListener("change", function(event){
 					senhaChangeTimestamp = event.timeStamp
 					if(senhaChangeTimestamp - nomeChangeTimestamp < 10) fixRenderInputs()
+				})
+
+				senhaElement.addEventListener("change", function(event){
+					if(!confirmarSenhaElement || !document.contains(confirmarSenhaElement)) throw new Error("O input da senha não foi encontrado")
+
+					if(confirmarSenhaElement.value.trim() !== this.value.trim()){
+						if(!confirmarSenhaElement.value.trim()) return
+
+						confirmarSenhaElement.setCustomValidity("Precisa ser igual a senha digitada acima.")
+						confirmarSenhaElement.classList.remove("placeholder-shown:border-slate-400", "placeholder-shown:border-t-slate-400", "border-slate-400", "focus:border-slate-200")
+						confirmarSenhaElement.nextElementSibling.classList.remove("text-gray-400", "peer-placeholder-shown:text-gray-400", "before:border-slate-400", "after:border-slate-400", "peer-focus:before:!border-slate-200", "peer-focus:after:!border-slate-200")
+						confirmarSenhaElement.classList.add("placeholder-shown:border-red-400", "placeholder-shown:border-t-red-400", "border-red-400", "focus:border-red-200")
+						confirmarSenhaElement.nextElementSibling.classList.add("text-red-400", "peer-placeholder-shown:text-red-400", "before:border-red-400", "after:border-red-400", "peer-focus:before:!border-red-200", "peer-focus:after:!border-red-200")
+					}else{
+						confirmarSenhaElement.setCustomValidity("")
+						confirmarSenhaElement.classList.add("placeholder-shown:border-slate-400", "placeholder-shown:border-t-slate-400", "border-slate-400", "focus:border-slate-200")
+						confirmarSenhaElement.nextElementSibling.classList.add("text-gray-400", "peer-placeholder-shown:text-gray-400", "before:border-slate-400", "after:border-slate-400", "peer-focus:before:!border-slate-200", "peer-focus:after:!border-slate-200")
+						confirmarSenhaElement.classList.remove("placeholder-shown:border-red-400", "placeholder-shown:border-t-red-400", "border-red-400", "focus:border-red-200")
+						confirmarSenhaElement.nextElementSibling.classList.remove("text-red-400", "peer-placeholder-shown:text-red-400", "before:border-red-400", "after:border-red-400", "peer-focus:before:!border-red-200", "peer-focus:after:!border-red-200")
+					}
+				})
+
+				confirmarSenhaElement.addEventListener("change", function(event){
+					if(!senhaElement || !document.contains(senhaElement)) throw new Error("O input da senha não foi encontrado")
+
+					if(this.value.trim() !== senhaElement.value.trim()){
+						if(!this.value.trim()) return
+
+						this.setCustomValidity("Precisa ser igual a senha digitada acima.")
+						this.classList.remove("placeholder-shown:border-slate-400", "placeholder-shown:border-t-slate-400", "border-slate-400", "focus:border-slate-200")
+						this.nextElementSibling.classList.remove("text-gray-400", "peer-placeholder-shown:text-gray-400", "before:border-slate-400", "after:border-slate-400", "peer-focus:before:!border-slate-200", "peer-focus:after:!border-slate-200")
+						this.classList.add("placeholder-shown:border-red-400", "placeholder-shown:border-t-red-400", "border-red-400", "focus:border-red-200")
+						this.nextElementSibling.classList.add("text-red-400", "peer-placeholder-shown:text-red-400", "before:border-red-400", "after:border-red-400", "peer-focus:before:!border-red-200", "peer-focus:after:!border-red-200")
+					}else{
+						this.setCustomValidity("")
+						this.classList.add("placeholder-shown:border-slate-400", "placeholder-shown:border-t-slate-400", "border-slate-400", "focus:border-slate-200")
+						this.nextElementSibling.classList.add("text-gray-400", "peer-placeholder-shown:text-gray-400", "before:border-slate-400", "after:border-slate-400", "peer-focus:before:!border-slate-200", "peer-focus:after:!border-slate-200")
+						this.classList.remove("placeholder-shown:border-red-400", "placeholder-shown:border-t-red-400", "border-red-400", "focus:border-red-200")
+						this.nextElementSibling.classList.remove("text-red-400", "peer-placeholder-shown:text-red-400", "before:border-red-400", "after:border-red-400", "peer-focus:before:!border-red-200", "peer-focus:after:!border-red-200")
+					}
 				})
 				})()
 			</script>
