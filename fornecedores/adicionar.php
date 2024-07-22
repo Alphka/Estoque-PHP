@@ -16,7 +16,7 @@ if(!isset($_SESSION["usuario"])){
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<meta name="color-scheme" content="dark">
-		<title>Cadastrar categoria - Estoque</title>
+		<title>Cadastrar fornecedor - Estoque</title>
 		<script src="https://cdn.tailwindcss.com"></script>
 		<link rel="stylesheet" href="../styles/global.css">
 	</head>
@@ -25,14 +25,14 @@ if(!isset($_SESSION["usuario"])){
 			<header class="pt-8">
 				<hgroup class="flex flex-col text-center gap-2">
 					<h1 class="text-3xl font-bold leading-none">Formulário de cadastro</h1>
-					<h2 class="text-xl font-semibold leading-normal">Cadastrar categoria</h2>
+					<h2 class="text-xl font-semibold leading-normal">Cadastrar fornecedor</h2>
 				</hgroup>
 			</header>
 
 			<form
 				class="container flex flex-col pt-8 px-4 mx-auto gap-4"
 				autocomplete="off"
-				action="../api/categorias/adicionar.php"
+				action="../api/fornecedores/adicionar.php"
 				method="post"
 			>
 				<div class="relative w-full h-10">
@@ -66,7 +66,7 @@ if(!isset($_SESSION["usuario"])){
 						for="nome"
 						aria-hidden="true"
 					>
-						Nome da categoria
+						Nome do fornecedor
 					</label>
 				</div>
 
@@ -138,7 +138,7 @@ if(!isset($_SESSION["usuario"])){
 				toastSuccess.querySelector("button").addEventListener("click", () => toastSuccess.remove())
 				toastError.querySelector("button").addEventListener("click", () => toastError.remove())
 
-				function showToastSuccess(message = "Categoria cadastrada com sucesso!"){
+				function showToastSuccess(message = "Fornecedor cadastrado com sucesso!"){
 					if(!toastSuccess) return
 
 					const messageElement = /** @type {HTMLDivElement | null} */ (toastSuccess.querySelector(".message"))
