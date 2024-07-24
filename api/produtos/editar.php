@@ -10,7 +10,29 @@ if(!isset($_SESSION["usuario"])){
 
 if($_SERVER["REQUEST_METHOD"] !== "POST") return http_response_code(405);
 
+$queries = array();
+parse_str($_SERVER["QUERY_STRING"], $queries);
+
+$id = $queries["id"];
+
+try{
+	if(!$id || empty($id = trim($id))) throw "ID is not defined";
+	$id = intval($id);
+}catch(Exception $error){
+	http_response_code(422);
+	return;
+}
+
 include "../../conexao.php";
+
+$produtos = mysqli_query($connection, "SELECT * FROM estoque WHERE id = '$id'");
+
+if(mysqli_num_rows($produtos) == 0){
+	http_response_code(404);
+	return;
+}
+
+$produto = mysqli_fetch_array($produtos);
 
 $nome = $_POST["nome"];
 $numero = $_POST["numero"];
@@ -51,7 +73,7 @@ try{
 		return;
 	}
 
-	$query = mysqli_query($connection, "INSERT INTO estoque (numero, nome, categoria, quantidade, fornecedor) VALUES ('$numero', '$nome', '$categoria', '$quantidade', '$fornecedor')");
+	$query = mysqli_query($connection, "UPDATE estoque SET numero = '$numero', nome = '$nome', categoria = '$categoria', quantidade = '$quantidade', fornecedor = '$fornecedor' WHERE id = '$id'");
 
 	if(!$query){
 		http_response_code(500);

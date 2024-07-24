@@ -11,10 +11,12 @@ if(!isset($_SESSION["usuario"])){
 $queries = array();
 parse_str($_SERVER["QUERY_STRING"], $queries);
 
-$idProduto = $queries["id"];
+$id = $queries["id"];
 
+// TODO: Fix this
 try{
-	$idProduto = intval($idProduto);
+	if(!$id || empty($id = trim($id))) throw "ID is not defined";
+	$id = intval($id);
 }catch(Exception $error){
 	http_response_code(422);
 	return;
@@ -22,15 +24,15 @@ try{
 
 include "../conexao.php";
 
-$produtos = mysqli_query($connection, "SELECT * FROM estoque WHERE id = '$idProduto'");
-$categorias = mysqli_query($connection, "SELECT * FROM categoria ORDER BY nome ASC");
-$fornecedores = mysqli_query($connection, "SELECT * FROM fornecedor ORDER BY nome ASC");
+$produtos = mysqli_query($connection, "SELECT * FROM estoque WHERE id = '$id'");
 
 if(mysqli_num_rows($produtos) == 0){
 	http_response_code(404);
 	return;
 }
 
+$categorias = mysqli_query($connection, "SELECT * FROM categoria ORDER BY nome ASC");
+$fornecedores = mysqli_query($connection, "SELECT * FROM fornecedor ORDER BY nome ASC");
 $produto = mysqli_fetch_array($produtos);
 
 mysqli_close($connection);
@@ -58,7 +60,7 @@ mysqli_close($connection);
 			<form
 				class="container max-w-md flex flex-col pt-8 px-4 mx-auto gap-4"
 				autocomplete="off"
-				action="../api/produtos/editar.php"
+				action="../api/produtos/editar.php?id=<?php echo $produto["id"] ?>"
 				method="post"
 			>
 				<div class="relative w-full h-10">

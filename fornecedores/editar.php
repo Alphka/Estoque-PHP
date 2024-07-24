@@ -11,10 +11,10 @@ if(!isset($_SESSION["usuario"])){
 $queries = array();
 parse_str($_SERVER["QUERY_STRING"], $queries);
 
-$idFornecedor = $queries["id"];
+$id = $queries["id"];
 
 try{
-	$idFornecedor = intval($idFornecedor);
+	$id = intval($id);
 }catch(Exception $error){
 	http_response_code(422);
 	return;
@@ -22,7 +22,7 @@ try{
 
 include "../conexao.php";
 
-$fornecedores = mysqli_query($connection, "SELECT * FROM fornecedor WHERE id = '$idFornecedor'");
+$fornecedores = mysqli_query($connection, "SELECT * FROM fornecedor WHERE id = '$id'");
 
 if(mysqli_num_rows($fornecedores) == 0){
 	http_response_code(404);
@@ -56,7 +56,7 @@ mysqli_close($connection);
 			<form
 				class="container max-w-md flex flex-col pt-8 px-4 mx-auto gap-4"
 				autocomplete="off"
-				action="../api/fornecedores/editar.php"
+				action="../api/fornecedores/editar.php?id=<?php echo $fornecedor["id"] ?>"
 				method="post"
 			>
 				<div class="relative w-full h-10">

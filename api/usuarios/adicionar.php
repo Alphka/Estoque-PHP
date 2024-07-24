@@ -39,11 +39,13 @@ try{
 				"success" => false,
 				"message" => mysqli_error($connection)
 			]);
+			mysqli_close($connection);
 			return;
 
 		}
 
 		echo json_encode([ "success" => true ]);
+		mysqli_close($connection);
 		return;
 	}
 

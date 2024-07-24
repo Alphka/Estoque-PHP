@@ -26,10 +26,12 @@ try{
 				"success" => false,
 				"message" => mysqli_error($connection)
 			]);
+			mysqli_close($connection);
 			return;
 		}
 
 		echo json_encode([ "success" => true ]);
+		mysqli_close($connection);
 		return;
 	}
 
@@ -38,6 +40,7 @@ try{
 		"success" => false,
 		"message" => "Nome inválido"
 	]);
+	mysqli_close($connection);
 }catch(Exception $error){
 	http_response_code(500);
 	echo json_encode([

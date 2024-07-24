@@ -21,6 +21,8 @@ if(
 		header("Location: ../index.php");
 		return;
 	}
+
+	mysqli_close($connection);
 }
 
 header("Location: ../login.php");
