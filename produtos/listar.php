@@ -14,7 +14,7 @@ $produtos = mysqli_query($connection, "SELECT * FROM estoque ORDER BY nome ASC")
 $produtosArray = array();
 
 if(mysqli_num_rows($produtos) > 0){
-	while($produto = $produtos->fetch_assoc()){
+	while($produto = mysqli_fetch_array($produtos)){
 		$produtosArray[] = $produto;
 	}
 }
@@ -22,7 +22,6 @@ if(mysqli_num_rows($produtos) > 0){
 mysqli_close($connection);
 
 ?>
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 	<head>

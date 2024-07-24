@@ -12,23 +12,26 @@ if($_SERVER["REQUEST_METHOD"] !== "POST") return http_response_code(405);
 
 include "../../conexao.php";
 
+if(!$connection){
+	http_response_code(500);
+	return;
+}
+
 $nome = $_POST["nome"];
-$numero = $_POST["numero"];
-$categoria = $_POST["categoria"];
-$quantidade = $_POST["quantidade"];
-$fornecedor = $_POST["fornecedor"];
+$email = $_POST["email"];
+$senha = $_POST["senha"];
+$nivel = $_POST["nivel"];
 
 header("Content-Type: application/json; charset=utf-8");
 
 try{
 	if(
 		isset($nome) && !empty($nome = trim($nome)) &&
-		isset($numero) && !empty($numero = trim($numero)) &&
-		isset($categoria) && !empty($categoria = trim($categoria)) &&
-		isset($quantidade) && !empty($quantidade = trim($quantidade)) &&
-		isset($fornecedor) && !empty($fornecedor = trim($fornecedor))
+		isset($email) && !empty($email = trim($email)) &&
+		isset($senha) && !empty($senha = trim($senha)) &&
+		isset($nivel) && !empty($nivel = trim($nivel))
 	){
-		$query = mysqli_query($connection, "INSERT INTO estoque (numero, nome, categoria, quantidade, fornecedor) VALUES ('$numero', '$nome', '$categoria', '$quantidade', '$fornecedor')");
+		$query = mysqli_query($connection, "INSERT INTO usuarios (nome, email, senha, nivel) VALUES ('$nome', '$email', '$senha', '$nivel')");
 
 		if(!$query){
 			http_response_code(500);
@@ -37,13 +40,18 @@ try{
 				"message" => mysqli_error($connection)
 			]);
 			return;
+
 		}
 
 		echo json_encode([ "success" => true ]);
 		return;
 	}
 
-
+	http_response_code(400);
+	echo json_encode([
+		"success" => false,
+		"message" => "Todos os campos do formulário precisam ser preenchidos"
+	]);
 }catch(Exception $error){
 	http_response_code(500);
 	echo json_encode([

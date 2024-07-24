@@ -14,7 +14,7 @@ $categorias = mysqli_query($connection, "SELECT * FROM categoria ORDER BY nome A
 $categoriasArray = array();
 
 if(mysqli_num_rows($categorias) > 0){
-	while($categoria = $categorias->fetch_assoc()){
+	while($categoria = mysqli_fetch_array($categorias)){
 		$categoriasArray[] = $categoria;
 	}
 }
@@ -22,7 +22,6 @@ if(mysqli_num_rows($categorias) > 0){
 mysqli_close($connection);
 
 ?>
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 	<head>

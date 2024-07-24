@@ -9,7 +9,6 @@ if(!isset($_SESSION["usuario"])){
 }
 
 ?>
-
 <!DOCTYPE html>
 <html lang="pt=BR">
 	<head>
@@ -30,7 +29,7 @@ if(!isset($_SESSION["usuario"])){
 
 			<form
 				class="container max-w-md flex flex-col pt-8 px-4 mx-auto gap-4"
-				action="api/usuarios/adicionar.php"
+				action="../api/usuarios/adicionar.php"
 				autocomplete="off"
 				method="POST"
 			>
@@ -54,7 +53,7 @@ if(!isset($_SESSION["usuario"])){
 						class="
 							flex w-full h-full truncate pointer-events-none absolute -top-1.5 left-0 select-none !overflow-visible
 							text-gray-400 text-xs leading-tight peer-focus:leading-tight
-							peer-placeholder-shown:text-gray-400 peer-placeholder-shown:text-sm
+							peer-placeholder-shown:text-gray-200 peer-placeholder-shown:text-sm
 							peer-focus:text-xs
 							before:content[' '] before:block before:box-border before:w-2.5 before:h-1.5 before:mt-[6.5px] before:mr-1
 							peer-placeholder-shown:before:border-transparent before:rounded-tl-md before:border-t peer-focus:before:border-t-2 before:border-l peer-focus:before:border-l-2 before:pointer-events-none peer-disabled:before:border-transparent
@@ -90,7 +89,7 @@ if(!isset($_SESSION["usuario"])){
 						class="
 							flex w-full h-full truncate pointer-events-none absolute -top-1.5 left-0 select-none !overflow-visible
 							text-gray-400 text-xs leading-tight peer-focus:leading-tight
-							peer-placeholder-shown:text-gray-400 peer-placeholder-shown:text-sm
+							peer-placeholder-shown:text-gray-200 peer-placeholder-shown:text-sm
 							peer-focus:text-xs
 							before:content[' '] before:block before:box-border before:w-2.5 before:h-1.5 before:mt-[6.5px] before:mr-1
 							peer-placeholder-shown:before:border-transparent before:rounded-tl-md before:border-t peer-focus:before:border-t-2 before:border-l peer-focus:before:border-l-2 before:pointer-events-none peer-disabled:before:border-transparent
@@ -126,7 +125,7 @@ if(!isset($_SESSION["usuario"])){
 						class="
 							flex w-full h-full truncate pointer-events-none absolute -top-1.5 left-0 select-none !overflow-visible
 							text-gray-400 text-xs leading-tight peer-focus:leading-tight
-							peer-placeholder-shown:text-gray-400 peer-placeholder-shown:text-sm
+							peer-placeholder-shown:text-gray-200 peer-placeholder-shown:text-sm
 							peer-focus:text-xs
 							before:content[' '] before:block before:box-border before:w-2.5 before:h-1.5 before:mt-[6.5px] before:mr-1
 							peer-placeholder-shown:before:border-transparent before:rounded-tl-md before:border-t peer-focus:before:border-t-2 before:border-l peer-focus:before:border-l-2 before:pointer-events-none peer-disabled:before:border-transparent
@@ -161,7 +160,7 @@ if(!isset($_SESSION["usuario"])){
 						class="
 							flex w-full h-full truncate pointer-events-none absolute -top-1.5 left-0 select-none !overflow-visible
 							text-gray-400 text-xs leading-tight peer-focus:leading-tight
-							peer-placeholder-shown:text-gray-400 peer-placeholder-shown:text-sm
+							peer-placeholder-shown:text-gray-200 peer-placeholder-shown:text-sm
 							peer-focus:text-xs
 							before:content[' '] before:block before:box-border before:w-2.5 before:h-1.5 before:mt-[6.5px] before:mr-1
 							peer-placeholder-shown:before:border-transparent before:rounded-tl-md before:border-t peer-focus:before:border-t-2 before:border-l peer-focus:before:border-l-2 before:pointer-events-none peer-disabled:before:border-transparent
@@ -220,13 +219,12 @@ if(!isset($_SESSION["usuario"])){
 
 				<button
 					class="bg-blue-500 hover:opacity-95 hover:shadow focus:bg-blue-600 flex items-center px-3 py-1 w-fit mx-auto rounded select-none text-center"
-					aria-label="Clique para enviar o formulário de cadastro"
+					aria-label="Clique para enviar o formulário"
 					type="submit"
 				>
 					Cadastrar
 				</button>
 			</form>
-
 
 			<script>
 				(() => {
@@ -256,10 +254,10 @@ if(!isset($_SESSION["usuario"])){
 					if(senhaChangeTimestamp - nomeChangeTimestamp < 10) fixRenderInputs()
 				})
 
-				senhaElement.addEventListener("change", function(event){
+				function validatePasswordConfirmation(){
 					if(!confirmarSenhaElement || !document.contains(confirmarSenhaElement)) throw new Error("O input da senha não foi encontrado")
 
-					if(confirmarSenhaElement.value.trim() !== this.value.trim()){
+					if(confirmarSenhaElement.value.trim() !== senhaElement.value.trim()){
 						if(!confirmarSenhaElement.value.trim()) return
 
 						confirmarSenhaElement.setCustomValidity("Precisa ser igual a senha digitada acima.")
@@ -274,25 +272,170 @@ if(!isset($_SESSION["usuario"])){
 						confirmarSenhaElement.classList.remove("placeholder-shown:border-red-400", "placeholder-shown:border-t-red-400", "border-red-400", "focus:border-red-200")
 						confirmarSenhaElement.nextElementSibling.classList.remove("text-red-400", "peer-placeholder-shown:text-red-400", "before:border-red-400", "after:border-red-400", "peer-focus:before:!border-red-200", "peer-focus:after:!border-red-200")
 					}
-				})
+				}
 
-				confirmarSenhaElement.addEventListener("change", function(event){
-					if(!senhaElement || !document.contains(senhaElement)) throw new Error("O input da senha não foi encontrado")
+				senhaElement.addEventListener("change", validatePasswordConfirmation)
+				confirmarSenhaElement.addEventListener("change", validatePasswordConfirmation)
+				})()
+			</script>
 
-					if(this.value.trim() !== senhaElement.value.trim()){
-						if(!this.value.trim()) return
+			<div class="fixed top-5 right-5 flex flex-col w-full max-w-xs select-none gap-4">
+				<div id="toast-success" class="invisible bg-gray-800 text-gray-200 flex items-center p-4 rounded-lg shadow transition-transform" role="alert" aria-hidden="true">
+					<div class="bg-green-800 text-green-200 inline-flex items-center justify-center flex-shrink-0 w-8 h-8 rounded-lg" aria-hidden="true">
+						<svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+							<path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"></path>
+						</svg>
+					</div>
+					<div class="message ms-3 text-sm"></div>
+					<button
+						class="bg-gray-800 inline-flex items-center justify-center text-gray-500 hover:bg-gray-700 hover:text-white focus-within:bg-gray-700 focus-within:text-white p-1.5 ms-auto -mx-1.5 -my-1.5 h-8 w-8 rounded-lg"
+						aria-label="Fechar"
+						type="button"
+					>
+						<span class="sr-only">Fechar</span>
+						<svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+							<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"></path>
+						</svg>
+					</button>
+				</div>
 
-						this.setCustomValidity("Precisa ser igual a senha digitada acima.")
-						this.classList.remove("placeholder-shown:border-slate-400", "placeholder-shown:border-t-slate-400", "border-slate-400", "focus:border-slate-200")
-						this.nextElementSibling.classList.remove("text-gray-400", "peer-placeholder-shown:text-gray-400", "before:border-slate-400", "after:border-slate-400", "peer-focus:before:!border-slate-200", "peer-focus:after:!border-slate-200")
-						this.classList.add("placeholder-shown:border-red-400", "placeholder-shown:border-t-red-400", "border-red-400", "focus:border-red-200")
-						this.nextElementSibling.classList.add("text-red-400", "peer-placeholder-shown:text-red-400", "before:border-red-400", "after:border-red-400", "peer-focus:before:!border-red-200", "peer-focus:after:!border-red-200")
-					}else{
-						this.setCustomValidity("")
-						this.classList.add("placeholder-shown:border-slate-400", "placeholder-shown:border-t-slate-400", "border-slate-400", "focus:border-slate-200")
-						this.nextElementSibling.classList.add("text-gray-400", "peer-placeholder-shown:text-gray-400", "before:border-slate-400", "after:border-slate-400", "peer-focus:before:!border-slate-200", "peer-focus:after:!border-slate-200")
-						this.classList.remove("placeholder-shown:border-red-400", "placeholder-shown:border-t-red-400", "border-red-400", "focus:border-red-200")
-						this.nextElementSibling.classList.remove("text-red-400", "peer-placeholder-shown:text-red-400", "before:border-red-400", "after:border-red-400", "peer-focus:before:!border-red-200", "peer-focus:after:!border-red-200")
+				<div id="toast-error" class="invisible bg-gray-800 text-gray-200 flex items-center p-4 rounded-lg shadow transition-transform" role="alert" aria-hidden="true">
+					<div class="bg-red-800 text-red-200 inline-flex items-center justify-center flex-shrink-0 w-8 h-8 rounded-lg" aria-hidden="true">
+						<svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+							<path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 11.793a1 1 0 1 1-1.414 1.414L10 11.414l-2.293 2.293a1 1 0 0 1-1.414-1.414L8.586 10 6.293 7.707a1 1 0 0 1 1.414-1.414L10 8.586l2.293-2.293a1 1 0 0 1 1.414 1.414L11.414 10l2.293 2.293Z"></path>
+						</svg>
+					</div>
+					<div class="message ms-3 text-sm"></div>
+					<button
+						class="bg-gray-800 inline-flex items-center justify-center text-gray-500 hover:bg-gray-700 hover:text-white focus-within:bg-gray-700 focus-within:text-white p-1.5 ms-auto -mx-1.5 -my-1.5 h-8 w-8 rounded-lg"
+						aria-label="Fechar"
+						type="button"
+					>
+						<span class="sr-only">Fechar</span>
+						<svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+							<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"></path>
+						</svg>
+					</button>
+				</div>
+			</div>
+
+			<script>
+				(() => {
+				const toastSuccess = /** @type {HTMLDivElement | null} */ (document.getElementById("toast-success"))
+				const toastError = /** @type {HTMLDivElement | null} */ (document.getElementById("toast-error"))
+				const toastContainer = toastSuccess?.parentElement
+
+				/** @type {Parameters<typeof clearTimeout>[0]} */ let toastErrorTimeout
+
+				toastSuccess.remove()
+				toastSuccess.classList.remove("invisible")
+				toastSuccess.ariaHidden = false
+
+				toastError.remove()
+				toastError.classList.remove("invisible")
+				toastError.ariaHidden = false
+
+				toastSuccess.querySelector("button").addEventListener("click", () => toastSuccess.remove())
+				toastError.querySelector("button").addEventListener("click", () => toastError.remove())
+
+				function showToastSuccess(message = "Usuário cadastrado com sucesso!"){
+					if(!toastSuccess) return
+
+					const messageElement = /** @type {HTMLDivElement | null} */ (toastSuccess.querySelector(".message"))
+					if(!messageElement) return
+
+					toastSuccess.style.setProperty("transform", "translateX(110%)")
+					messageElement.innerText = message
+					toastContainer.appendChild(toastSuccess)
+
+					setTimeout(() => toastSuccess.style.removeProperty("transform"), 10)
+
+					return new Promise(resolve => {
+						setTimeout(() => {
+							toastSuccess.style.setProperty("transform", "translateX(150%)")
+							toastSuccess.addEventListener("transitionend", function(){
+								this.remove()
+								resolve()
+							}, { once: true })
+						}, 5e3)
+					})
+				}
+
+				/** @param {string} message */
+				function showToastError(message){
+					if(!toastError) return
+
+					const messageElement = /** @type {HTMLDivElement | null} */ (toastError.querySelector(".message"))
+					if(!messageElement) return
+
+					toastError.style.setProperty("transform", "translateX(110%)")
+					messageElement.innerText = message
+					toastContainer.appendChild(toastError)
+
+					setTimeout(() => toastError.style.removeProperty("transform"), 10)
+
+					clearTimeout(toastErrorTimeout)
+					toastErrorTimeout = setTimeout(() => {
+						toastError.style.setProperty("transform", "translateX(150%)")
+						toastError.addEventListener("transitionend", function(){
+							this.remove()
+						}, { once: true })
+					}, 5e3)
+				}
+
+				let loading = false
+
+				document.forms[0].addEventListener("submit", async function(event){
+					event.preventDefault()
+
+					if(loading) return
+
+					loading = true
+
+					const submitButton = this.querySelector("[type=submit]")
+
+					if(submitButton) submitButton.disabled = true
+
+					try{
+						const response = await fetch(this.action, {
+							headers: {
+								"Content-Type": this.enctype
+							},
+							body: new URLSearchParams(new FormData(this)),
+							method: this.method,
+							credentials: "include"
+						})
+
+						const data = await response.json()
+
+						if(!data.success) throw data.message
+						if(!response.ok) throw response.status
+
+						await showToastSuccess()
+
+						const { activeElement } = document
+
+						if(activeElement instanceof HTMLElement && this.contains(activeElement)){
+							activeElement.blur()
+						}
+					}catch(error){
+						if(submitButton) submitButton.disabled = false
+						loading = false
+
+						if(typeof error === "string"){
+							showToastError(error)
+							console.error(new Error(error))
+							return
+						}
+
+						if(error instanceof Error && error.message){
+							showToastError(error.message)
+							console.error(error)
+							return
+						}
+
+						showToastError("Algo deu errado!")
+						console.error(error)
 					}
 				})
 				})()

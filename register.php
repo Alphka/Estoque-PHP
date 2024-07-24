@@ -37,7 +37,7 @@
 						class="
 							flex w-full h-full truncate pointer-events-none absolute -top-1.5 left-0 select-none !overflow-visible
 							text-gray-400 text-xs leading-tight peer-focus:leading-tight
-							peer-placeholder-shown:text-gray-400 peer-placeholder-shown:text-sm
+							peer-placeholder-shown:text-gray-200 peer-placeholder-shown:text-sm
 							peer-focus:text-xs
 							before:content[' '] before:block before:box-border before:w-2.5 before:h-1.5 before:mt-[6.5px] before:mr-1
 							peer-placeholder-shown:before:border-transparent before:rounded-tl-md before:border-t peer-focus:before:border-t-2 before:border-l peer-focus:before:border-l-2 before:pointer-events-none peer-disabled:before:border-transparent
@@ -73,7 +73,7 @@
 						class="
 							flex w-full h-full truncate pointer-events-none absolute -top-1.5 left-0 select-none !overflow-visible
 							text-gray-400 text-xs leading-tight peer-focus:leading-tight
-							peer-placeholder-shown:text-gray-400 peer-placeholder-shown:text-sm
+							peer-placeholder-shown:text-gray-200 peer-placeholder-shown:text-sm
 							peer-focus:text-xs
 							before:content[' '] before:block before:box-border before:w-2.5 before:h-1.5 before:mt-[6.5px] before:mr-1
 							peer-placeholder-shown:before:border-transparent before:rounded-tl-md before:border-t peer-focus:before:border-t-2 before:border-l peer-focus:before:border-l-2 before:pointer-events-none peer-disabled:before:border-transparent
@@ -109,7 +109,7 @@
 						class="
 							flex w-full h-full truncate pointer-events-none absolute -top-1.5 left-0 select-none !overflow-visible
 							text-gray-400 text-xs leading-tight peer-focus:leading-tight
-							peer-placeholder-shown:text-gray-400 peer-placeholder-shown:text-sm
+							peer-placeholder-shown:text-gray-200 peer-placeholder-shown:text-sm
 							peer-focus:text-xs
 							before:content[' '] before:block before:box-border before:w-2.5 before:h-1.5 before:mt-[6.5px] before:mr-1
 							peer-placeholder-shown:before:border-transparent before:rounded-tl-md before:border-t peer-focus:before:border-t-2 before:border-l peer-focus:before:border-l-2 before:pointer-events-none peer-disabled:before:border-transparent
@@ -168,7 +168,7 @@
 
 				<button
 					class="bg-blue-500 hover:opacity-95 hover:shadow focus:bg-blue-600 flex items-center px-3 py-1 w-fit mx-auto rounded select-none text-center"
-					aria-label="Clique para enviar o formulário de cadastro"
+					aria-label="Clique para enviar o formulário"
 					type="submit"
 				>
 					Cadastrar

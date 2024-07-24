@@ -16,7 +16,6 @@ $fornecedores = mysqli_query($connection, "SELECT * FROM fornecedor ORDER BY nom
 mysqli_close($connection);
 
 ?>
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 	<head>
@@ -61,7 +60,7 @@ mysqli_close($connection);
 						class="
 							flex w-full h-full truncate pointer-events-none absolute -top-1.5 left-0 select-none !overflow-visible
 							text-gray-400 text-xs leading-tight peer-focus:leading-tight
-							peer-placeholder-shown:text-gray-400 peer-placeholder-shown:text-sm
+							peer-placeholder-shown:text-gray-200 peer-placeholder-shown:text-sm
 							peer-focus:text-xs
 							before:content[' '] before:block before:box-border before:w-2.5 before:h-1.5 before:mt-[6.5px] before:mr-1
 							peer-placeholder-shown:before:border-transparent before:rounded-tl-md before:border-t peer-focus:before:border-t-2 before:border-l peer-focus:before:border-l-2 before:pointer-events-none peer-disabled:before:border-transparent
@@ -98,7 +97,7 @@ mysqli_close($connection);
 						class="
 							flex w-full h-full truncate pointer-events-none absolute -top-1.5 left-0 select-none !overflow-visible
 							text-gray-400 text-xs leading-tight peer-focus:leading-tight
-							peer-placeholder-shown:text-gray-400 peer-placeholder-shown:text-sm
+							peer-placeholder-shown:text-gray-200 peer-placeholder-shown:text-sm
 							peer-focus:text-xs
 							before:content[' '] before:block before:box-border before:w-2.5 before:h-1.5 before:mt-[6.5px] before:mr-1
 							peer-placeholder-shown:before:border-transparent before:rounded-tl-md before:border-t peer-focus:before:border-t-2 before:border-l peer-focus:before:border-l-2 before:pointer-events-none peer-disabled:before:border-transparent
@@ -183,7 +182,7 @@ mysqli_close($connection);
 						class="
 							flex w-full h-full truncate pointer-events-none absolute -top-1.5 left-0 select-none !overflow-visible
 							text-gray-400 text-xs leading-tight peer-focus:leading-tight
-							peer-placeholder-shown:text-gray-400 peer-placeholder-shown:text-sm
+							peer-placeholder-shown:text-gray-200 peer-placeholder-shown:text-sm
 							peer-focus:text-xs
 							before:content[' '] before:block before:box-border before:w-2.5 before:h-1.5 before:mt-[6.5px] before:mr-1
 							peer-placeholder-shown:before:border-transparent before:rounded-tl-md before:border-t peer-focus:before:border-t-2 before:border-l peer-focus:before:border-l-2 before:pointer-events-none peer-disabled:before:border-transparent
@@ -249,7 +248,7 @@ mysqli_close($connection);
 
 				<button
 					class="bg-blue-500 focus:bg-blue-600 enabled:hover:bg-blue-600 enabled:hover:shadow disabled:bg-blue-700 disabled:cursor-not-allowed flex items-center text-center px-3 py-1 w-fit mx-auto rounded select-none"
-					aria-label="Clique para entrar na sua conta"
+					aria-label="Clique para enviar o formulário"
 					type="submit"
 				>
 					Enviar
@@ -389,6 +388,12 @@ mysqli_close($connection);
 						if(!response.ok) throw response.status
 
 						await showToastSuccess()
+
+						const { activeElement } = document
+
+						if(activeElement instanceof HTMLElement && this.contains(activeElement)){
+							activeElement.blur()
+						}
 					}catch(error){
 						if(submitButton) submitButton.disabled = false
 						loading = false

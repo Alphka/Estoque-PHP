@@ -8,30 +8,36 @@ if(!isset($_SESSION["usuario"])){
 	return;
 }
 
-include "../../conexao.php";
+if($_SERVER["REQUEST_METHOD"] !== "POST") return http_response_code(405);
 
-if(!$connection){
-	http_response_code(500);
-	return;
-}
+include "../../conexao.php";
 
 $nome = $_POST["nome"];
 
 header("Content-Type: application/json; charset=utf-8");
 
 try{
-	$query = mysqli_query($connection, "INSERT INTO categoria (nome) VALUES ('$nome')");
+	if(isset($nome) && !empty($nome = trim($nome))){
+		$query = mysqli_query($connection, "INSERT INTO categoria (nome) VALUES ('$nome')");
 
-	if(!$query){
-		http_response_code(500);
-		echo json_encode([
-			"success" => false,
-			"message" => mysqli_error($connection)
-		]);
+		if(!$query){
+			http_response_code(500);
+			echo json_encode([
+				"success" => false,
+				"message" => mysqli_error($connection)
+			]);
+			return;
+		}
+
+		echo json_encode([ "success" => true ]);
 		return;
 	}
 
-	echo json_encode([ "success" => true ]);
+	http_response_code(400);
+	echo json_encode([
+		"success" => false,
+		"message" => "Nome inválido"
+	]);
 }catch(Exception $error){
 	http_response_code(500);
 	echo json_encode([

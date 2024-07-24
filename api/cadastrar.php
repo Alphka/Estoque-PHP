@@ -7,7 +7,12 @@ $nivel = $_POST["nivel"];
 
 session_start();
 
-if(isset($nome) && isset($senha) && isset($nivel) && isset($email)){
+if(
+	isset($nome) && !empty($nome = trim($nome)) &&
+	isset($email) && !empty($email = trim($email)) &&
+	isset($senha) && !empty($senha = trim($senha)) &&
+	isset($nivel) && !empty($nivel = trim($nivel))
+){
 	include "../conexao.php";
 
 	$query = mysqli_query($connection, "INSERT INTO usuarios (nome, email, senha, nivel) VALUES ('$nome', '$email', '$senha', '$nivel')");

@@ -14,7 +14,7 @@ $fornecedores = mysqli_query($connection, "SELECT * FROM fornecedor ORDER BY nom
 $fornecedoresArray = array();
 
 if(mysqli_num_rows($fornecedores) > 0){
-	while($fornecedor = $fornecedores->fetch_assoc()){
+	while($fornecedor = mysqli_fetch_array($fornecedores)){
 		$fornecedoresArray[] = $fornecedor;
 	}
 }
@@ -22,7 +22,6 @@ if(mysqli_num_rows($fornecedores) > 0){
 mysqli_close($connection);
 
 ?>
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 	<head>
