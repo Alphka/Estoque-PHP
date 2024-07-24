@@ -8,8 +8,6 @@ if(!isset($_SESSION["usuario"])){
 	return;
 }
 
-include "../conexao.php";
-
 $queries = array();
 parse_str($_SERVER["QUERY_STRING"], $queries);
 
@@ -21,6 +19,8 @@ try{
 	http_response_code(422);
 	return;
 }
+
+include "../conexao.php";
 
 $produtos = mysqli_query($connection, "SELECT * FROM estoque WHERE id = '$idProduto'");
 $categorias = mysqli_query($connection, "SELECT * FROM categoria ORDER BY nome ASC");

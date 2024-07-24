@@ -11,10 +11,10 @@ if(!isset($_SESSION["usuario"])){
 $queries = array();
 parse_str($_SERVER["QUERY_STRING"], $queries);
 
-$idFornecedor = $queries["id"];
+$idCategoria = $queries["id"];
 
 try{
-	$idFornecedor = intval($idFornecedor);
+	$idCategoria = intval($idCategoria);
 }catch(Exception $error){
 	http_response_code(422);
 	return;
@@ -22,14 +22,14 @@ try{
 
 include "../conexao.php";
 
-$fornecedores = mysqli_query($connection, "SELECT * FROM fornecedor WHERE id = '$idFornecedor'");
+$categorias = mysqli_query($connection, "SELECT * FROM categoria WHERE id = '$idCategoria'");
 
-if(mysqli_num_rows($fornecedores) == 0){
+if(mysqli_num_rows($categorias) == 0){
 	http_response_code(404);
 	return;
 }
 
-$fornecedor = mysqli_fetch_array($fornecedores);
+$categoria = mysqli_fetch_array($categorias);
 
 mysqli_close($connection);
 
@@ -40,7 +40,7 @@ mysqli_close($connection);
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<meta name="color-scheme" content="dark">
-		<title>Editar fornecedor - Estoque</title>
+		<title>Editar categoria - Estoque</title>
 		<script src="https://cdn.tailwindcss.com"></script>
 		<link rel="stylesheet" href="../styles/global.css">
 	</head>
@@ -49,14 +49,14 @@ mysqli_close($connection);
 			<header class="pt-8">
 				<hgroup class="flex flex-col text-center gap-2">
 					<h1 class="text-3xl font-bold leading-none">Formulário de edição</h1>
-					<h2 class="text-xl font-semibold leading-normal">Editar informações do fornecedor</h2>
+					<h2 class="text-xl font-semibold leading-normal">Editar informações da categoria</h2>
 				</hgroup>
 			</header>
 
 			<form
 				class="container max-w-md flex flex-col pt-8 px-4 mx-auto gap-4"
 				autocomplete="off"
-				action="../api/fornecedores/editar.php"
+				action="../api/categorias/editar.php"
 				method="post"
 			>
 				<div class="relative w-full h-10">
@@ -71,7 +71,7 @@ mysqli_close($connection);
 							transition-all
 						"
 						placeholder
-						value="<?php echo $fornecedor["id"] ?>"
+						value="<?php echo $categoria["id"] ?>"
 						disabled
 					>
 					<label
@@ -91,7 +91,7 @@ mysqli_close($connection);
 						for="nome"
 						aria-hidden="true"
 					>
-						ID do fornecedor
+						ID da categoria
 					</label>
 				</div>
 
@@ -107,7 +107,7 @@ mysqli_close($connection);
 							text-sm px-3 py-2.5 rounded-md border-slate-400 focus:border-2 focus:border-slate-200
 							transition-all
 						"
-						value="<?php echo $fornecedor["nome"] ?>"
+						value="<?php echo $categoria["nome"] ?>"
 						placeholder
 						required
 					>
@@ -127,7 +127,7 @@ mysqli_close($connection);
 						for="nome"
 						aria-hidden="true"
 					>
-						Nome do fornecedor
+						Nome da categoria
 					</label>
 				</div>
 
@@ -199,7 +199,7 @@ mysqli_close($connection);
 				toastSuccess.querySelector("button").addEventListener("click", () => toastSuccess.remove())
 				toastError.querySelector("button").addEventListener("click", () => toastError.remove())
 
-				function showToastSuccess(message = "Fornecedor editado com sucesso!"){
+				function showToastSuccess(message = "Categoria editada com sucesso!"){
 					if(!toastSuccess) return
 
 					const messageElement = /** @type {HTMLDivElement | null} */ (toastSuccess.querySelector(".message"))
