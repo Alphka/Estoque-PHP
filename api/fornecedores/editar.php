@@ -30,10 +30,10 @@ if(mysqli_num_rows($fornecedores) == 0){
 
 $nome = isset($_POST["nome"]) ? trim($_POST["nome"]) : "";
 
-function invalidateRequest(string $message, int $status = 400){
+function invalidateRequest(string $message, int $status = null){
 	global $connection;
 
-	header("Content-Type: application/json; charset=utf-8", true, $status);
+	header("Content-Type: application/json; charset=utf-8", true, $status || 400);
 	echo json_encode([
 		"success" => false,
 		"message" => $message

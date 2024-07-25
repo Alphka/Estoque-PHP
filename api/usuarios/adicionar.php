@@ -13,10 +13,10 @@ $email = isset($_POST["email"]) ? trim($_POST["email"]) : null;
 $senha = isset($_POST["senha"]) ? trim($_POST["senha"]) : null;
 $nivel = isset($_POST["nivel"]) ? trim($_POST["nivel"]) : null;
 
-function invalidateRequest(string $message, int $status = 400){
+function invalidateRequest(string $message, int $status = null){
 	global $connection;
 
-	header("Content-Type: application/json; charset=utf-8", true, $status);
+	header("Content-Type: application/json; charset=utf-8", true, $status || 400);
 	echo json_encode([
 		"success" => false,
 		"message" => $message

@@ -179,7 +179,7 @@ mysqli_close($connection);
 
 			<script>
 				(() => {
-					const toastSuccess = /** @type {HTMLDivElement | null} */ (document.getElementById("toast-success"))
+				const toastSuccess = /** @type {HTMLDivElement | null} */ (document.getElementById("toast-success"))
 				const toastError = /** @type {HTMLDivElement | null} */ (document.getElementById("toast-error"))
 				const toastContainer = toastSuccess?.parentElement
 

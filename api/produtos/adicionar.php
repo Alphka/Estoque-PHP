@@ -14,10 +14,10 @@ $categoria = isset($_POST["categoria"]) ? trim($_POST["categoria"]) : "";
 $quantidade = isset($_POST["quantidade"]) ? trim($_POST["quantidade"]) : "";
 $fornecedor = isset($_POST["fornecedor"]) ? trim($_POST["fornecedor"]) : "";
 
-function invalidateRequest(string $message, int $status = 400){
+function invalidateRequest(string $message, int $status = null){
 	global $connection;
 
-	header("Content-Type: application/json; charset=utf-8", true, $status);
+	header("Content-Type: application/json; charset=utf-8", true, $status || 400);
 	echo json_encode([
 		"success" => false,
 		"message" => $message

@@ -298,6 +298,7 @@ mysqli_close($connection);
 				const toastContainer = toastSuccess?.parentElement
 
 				/** @type {Parameters<typeof clearTimeout>[0]} */ let toastErrorTimeout
+				/** @type {Parameters<typeof clearTimeout>[0]} */ let toastSuccessTimeout
 
 				toastSuccess.remove()
 				toastSuccess.classList.remove("invisible")
@@ -322,15 +323,14 @@ mysqli_close($connection);
 
 					setTimeout(() => toastSuccess.style.removeProperty("transform"), 10)
 
-					return new Promise(resolve => {
-						setTimeout(() => {
-							toastSuccess.style.setProperty("transform", "translateX(150%)")
-							toastSuccess.addEventListener("transitionend", function(){
-								this.remove()
-								resolve()
-							}, { once: true })
-						}, 5e3)
-					})
+					clearTimeout(toastSuccessTimeout)
+					toastSuccessTimeout = setTimeout(() => {
+						toastSuccess.style.setProperty("transform", "translateX(150%)")
+						toastSuccess.addEventListener("transitionend", function(){
+							this.remove()
+							resolve()
+						}, { once: true })
+					}, 5e3)
 				}
 
 				/** @param {string} message */
@@ -383,12 +383,11 @@ mysqli_close($connection);
 						if(!data.success) throw data.message
 						if(!response.ok) throw response.status
 
-						await showToastSuccess()
+						showToastSuccess()
 
-						const { activeElement } = document
-
-						if(activeElement instanceof HTMLElement && this.contains(activeElement)){
-							activeElement.blur()
+						if(submitButton){
+							submitButton.disabled = false
+							submitButton.blur()
 						}
 					}catch(error){
 						if(submitButton) submitButton.disabled = false
