@@ -2,23 +2,18 @@
 
 session_start();
 
-if(!isset($_SESSION["usuario"])){
-	http_response_code(401);
-	header("Location: ../login.php");
-	return;
-}
+if(!isset($_SESSION["usuario"])) return header("Location: ../login.php");
 
-$queries = array();
+$queries = [];
 parse_str($_SERVER["QUERY_STRING"], $queries);
 
-$id = $queries["id"];
+$id = isset($queries["id"]) ? $queries["id"] : null;
 
-// TODO: Fix this
 try{
-	if(!$id || empty($id = trim($id))) throw "ID is not defined";
+	if(!$id || empty($id = trim($id))) throw new Exception("ID is not defined");
 	$id = intval($id);
 }catch(Exception $error){
-	http_response_code(422);
+	header("Location: listar.php", true, 301);
 	return;
 }
 
@@ -193,15 +188,15 @@ mysqli_close($connection);
 							if(mysqli_num_rows($categorias)){
 								foreach($categorias as $categoria){
 									$nome = $categoria["nome"];
-						?>
-							<option
-								class="bg-gray-800"
-								value="<?php echo $nome ?>"
-								<?php if($nome == $produto["categoria"]) echo "selected" ?>
-							>
-								<?php echo $nome ?>
-							</option>
-						<?php
+									?>
+									<option
+										class="bg-gray-800"
+										value="<?php echo $nome ?>"
+										<?php if($nome == $produto["categoria"]) echo "selected" ?>
+									>
+										<?php echo $nome ?>
+									</option>
+									<?php
 								}
 							}
 						?>
@@ -283,20 +278,19 @@ mysqli_close($connection);
 						required
 					>
 						<option value hidden disabled>Selecione um fornecedor</option>
-						<option value hidden disabled>Selecione uma categoria</option>
 						<?php
 							if(mysqli_num_rows($fornecedores)){
 								foreach($fornecedores as $fornecedor){
 									$nome = $fornecedor["nome"];
-						?>
-							<option
-								class="bg-gray-800"
-								value="<?php echo $nome ?>"
-								<?php if($nome == $produto["fornecedor"]) echo "selected" ?>
-							>
-								<?php echo $nome ?>
-							</option>
-						<?php
+									?>
+									<option
+										class="bg-gray-800"
+										value="<?php echo $nome ?>"
+										<?php if($nome == $produto["fornecedor"]) echo "selected" ?>
+									>
+										<?php echo $nome ?>
+									</option>
+									<?php
 								}
 							}
 						?>
@@ -380,6 +374,7 @@ mysqli_close($connection);
 				const toastContainer = toastSuccess?.parentElement
 
 				/** @type {Parameters<typeof clearTimeout>[0]} */ let toastErrorTimeout
+				/** @type {Parameters<typeof clearTimeout>[0]} */ let toastSuccessTimeout
 
 				toastSuccess.remove()
 				toastSuccess.classList.remove("invisible")
@@ -404,15 +399,14 @@ mysqli_close($connection);
 
 					setTimeout(() => toastSuccess.style.removeProperty("transform"), 10)
 
-					return new Promise(resolve => {
-						setTimeout(() => {
-							toastSuccess.style.setProperty("transform", "translateX(150%)")
-							toastSuccess.addEventListener("transitionend", function(){
-								this.remove()
-								resolve()
-							}, { once: true })
-						}, 5e3)
-					})
+					clearTimeout(toastSuccessTimeout)
+					toastSuccessTimeout = setTimeout(() => {
+						toastSuccess.style.setProperty("transform", "translateX(150%)")
+						toastSuccess.addEventListener("transitionend", function(){
+							this.remove()
+							resolve()
+						}, { once: true })
+					}, 5e3)
 				}
 
 				/** @param {string} message */
@@ -465,13 +459,14 @@ mysqli_close($connection);
 						if(!data.success) throw data.message
 						if(!response.ok) throw response.status
 
-						await showToastSuccess()
+						showToastSuccess()
 
-						const { activeElement } = document
-
-						if(activeElement instanceof HTMLElement && this.contains(activeElement)){
-							activeElement.blur()
+						if(submitButton){
+							submitButton.disabled = false
+							submitButton.blur()
 						}
+
+						loading = false
 					}catch(error){
 						if(submitButton) submitButton.disabled = false
 						loading = false

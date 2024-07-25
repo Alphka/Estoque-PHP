@@ -17,20 +17,15 @@ if(!$connection){
 	return;
 }
 
-$nome = $_POST["nome"];
-$email = $_POST["email"];
-$senha = $_POST["senha"];
-$nivel = $_POST["nivel"];
+$nome = isset($_POST["nome"]) ? $_POST["nome"] : null;
+$email = isset($_POST["email"]) ? $_POST["email"] : null;
+$senha = isset($_POST["senha"]) ? $_POST["senha"] : null;
+$nivel = isset($_POST["nivel"]) ? $_POST["nivel"] : null;
 
 header("Content-Type: application/json; charset=utf-8");
 
 try{
-	if(
-		isset($nome) && !empty($nome = trim($nome)) &&
-		isset($email) && !empty($email = trim($email)) &&
-		isset($senha) && !empty($senha = trim($senha)) &&
-		isset($nivel) && !empty($nivel = trim($nivel))
-	){
+	if(!empty($nome) && !empty($email) && !empty($senha) && !empty($nivel)){
 		$query = mysqli_query($connection, "INSERT INTO usuarios (nome, email, senha, nivel) VALUES ('$nome', '$email', '$senha', '$nivel')");
 
 		if(!$query){
@@ -63,5 +58,3 @@ try{
 }
 
 mysqli_close($connection);
-
-?>

@@ -1,18 +1,13 @@
 <?php
 
-$nome = $_POST["nome"];
-$email = $_POST["email"];
-$senha = $_POST["senha"];
-$nivel = $_POST["nivel"];
+$nome = isset($_POST["nome"]) ? trim($_POST["nome"]) : "";
+$email = isset($_POST["email"]) ? trim($_POST["email"]) : "";
+$senha = isset($_POST["senha"]) ? trim($_POST["senha"]) : "";
+$nivel = isset($_POST["nivel"]) ? trim($_POST["nivel"]) : "";
 
 session_start();
 
-if(
-	isset($nome) && !empty($nome = trim($nome)) &&
-	isset($email) && !empty($email = trim($email)) &&
-	isset($senha) && !empty($senha = trim($senha)) &&
-	isset($nivel) && !empty($nivel = trim($nivel))
-){
+if(!empty($nome) && !empty($email) && !empty($senha) && !empty($nivel)){
 	include "../conexao.php";
 
 	$query = mysqli_query($connection, "INSERT INTO usuarios (nome, email, senha, nivel) VALUES ('$nome', '$email', '$senha', '$nivel')");
@@ -26,5 +21,3 @@ if(
 }
 
 header("Location: ../register.php");
-
-?>

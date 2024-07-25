@@ -2,15 +2,12 @@
 
 if($_SERVER["REQUEST_METHOD"] !== "POST") return http_response_code(405);
 
-$nome = $_POST["nome"];
-$senha = $_POST["senha"];
+$nome = isset($_POST["nome"]) ? trim($_POST["nome"]) : "";
+$senha = isset($_POST["senha"]) ? trim($_POST["senha"]) : "";
 
 session_start();
 
-if(
-	isset($nome) && !empty($nome = trim($nome)) &&
-	isset($senha) && !empty($senha = trim($senha))
-){
+if(!empty($nome) && !empty($senha)){
 	include "../conexao.php";
 
 	$query = mysqli_query($connection, "SELECT * FROM usuarios WHERE nome = '$nome' and senha = '$senha'");
@@ -26,5 +23,3 @@ if(
 }
 
 header("Location: ../login.php");
-
-?>

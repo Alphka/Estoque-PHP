@@ -12,11 +12,11 @@ if($_SERVER["REQUEST_METHOD"] !== "POST") return http_response_code(405);
 
 include "../../conexao.php";
 
-$nome = $_POST["nome"];
-$numero = $_POST["numero"];
-$categoria = $_POST["categoria"];
-$quantidade = $_POST["quantidade"];
-$fornecedor = $_POST["fornecedor"];
+$nome = isset($_POST["nome"]) ? trim($_POST["nome"]) : "";
+$numero = isset($_POST["numero"]) ? trim($_POST["numero"]) : "";
+$categoria = isset($_POST["categoria"]) ? trim($_POST["categoria"]) : "";
+$quantidade = isset($_POST["quantidade"]) ? trim($_POST["quantidade"]) : "";
+$fornecedor = isset($_POST["fornecedor"]) ? trim($_POST["fornecedor"]) : "";
 
 header("Content-Type: application/json; charset=utf-8");
 
@@ -33,23 +33,9 @@ try{
 		mysqli_close($connection);
 	}
 
-	if(
-		!isset($nome) || empty($nome = trim($nome)) ||
-		!isset($numero) || empty($numero = trim($numero)) ||
-		!isset($categoria) || empty($categoria = trim($categoria)) ||
-		!isset($quantidade) || empty($quantidade = trim($quantidade)) ||
-		!isset($fornecedor) || empty($fornecedor = trim($fornecedor))
-	) return invalidateRequest("Todos os campos do formulário precisam ser preenchidos");
-
-	if(!mysqli_num_rows(mysqli_query($connection, "SELECT * FROM categoria WHERE nome = '$categoria'"))){
-		invalidateRequest("Categoria inválida");
-		return;
-	}
-
-	if(!mysqli_num_rows(mysqli_query($connection, "SELECT * FROM fornecedor WHERE nome = '$fornecedor'"))){
-		invalidateRequest("Fornecedor inválido");
-		return;
-	}
+	if(empty($nome) || empty($numero) || empty($categoria) || empty($quantidade) || empty($fornecedor)) return invalidateRequest("Todos os campos do formulário precisam ser preenchidos");
+	if(!mysqli_num_rows(mysqli_query($connection, "SELECT * FROM categoria WHERE nome = '$categoria'"))) return invalidateRequest("Categoria inválida");
+	if(!mysqli_num_rows(mysqli_query($connection, "SELECT * FROM fornecedor WHERE nome = '$fornecedor'"))) return invalidateRequest("Fornecedor inválido");
 
 	$query = mysqli_query($connection, "INSERT INTO estoque (numero, nome, categoria, quantidade, fornecedor) VALUES ('$numero', '$nome', '$categoria', '$quantidade', '$fornecedor')");
 
@@ -73,5 +59,3 @@ try{
 }
 
 mysqli_close($connection);
-
-?>

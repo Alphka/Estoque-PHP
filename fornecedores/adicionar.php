@@ -2,11 +2,7 @@
 
 session_start();
 
-if(!isset($_SESSION["usuario"])){
-	http_response_code(401);
-	header("Location: ../login.php");
-	return;
-}
+if(!isset($_SESSION["usuario"])) return header("Location: ../login.php");
 
 ?>
 <!DOCTYPE html>

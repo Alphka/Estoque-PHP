@@ -10,16 +10,16 @@ if(!isset($_SESSION["usuario"])){
 
 if($_SERVER["REQUEST_METHOD"] !== "POST") return http_response_code(405);
 
-$queries = array();
+$queries = [];
 parse_str($_SERVER["QUERY_STRING"], $queries);
 
-$id = $queries["id"];
+$id = isset($queries["id"]) ? $queries["id"] : null;
 
 try{
-	if(!$id || empty($id = trim($id))) throw "ID is not defined";
+	if(!$id || empty($id = trim($id))) throw new Exception("ID is not defined");
 	$id = intval($id);
 }catch(Exception $error){
-	http_response_code(422);
+	header("Location: listar.php", true, 301);
 	return;
 }
 
@@ -34,66 +34,41 @@ if(mysqli_num_rows($produtos) == 0){
 
 $produto = mysqli_fetch_array($produtos);
 
-$nome = $_POST["nome"];
-$numero = $_POST["numero"];
-$categoria = $_POST["categoria"];
-$quantidade = $_POST["quantidade"];
-$fornecedor = $_POST["fornecedor"];
+$nome = isset($_POST["nome"]) ? trim($_POST["nome"]) : "";
+$numero = isset($_POST["numero"]) ? trim($_POST["numero"]) : "";
+$categoria = isset($_POST["categoria"]) ? trim($_POST["categoria"]) : "";
+$quantidade = isset($_POST["quantidade"]) ? trim($_POST["quantidade"]) : "";
+$fornecedor = isset($_POST["fornecedor"]) ? trim($_POST["fornecedor"]) : "";
 
-header("Content-Type: application/json; charset=utf-8");
+function invalidateRequest(string $message, int $status = 400){
+	global $connection;
+
+	header("Content-Type: application/json; charset=utf-8", true, $status);
+	echo json_encode([
+		"success" => false,
+		"message" => $message
+	]);
+
+	mysqli_close($connection);
+}
 
 try{
-	function invalidateRequest(string $message){
-		global $connection;
-
-		http_response_code(400);
-		echo json_encode([
-			"success" => false,
-			"message" => $message
-		]);
-
-		mysqli_close($connection);
-	}
-
-	if(
-		!isset($nome) || empty($nome = trim($nome)) ||
-		!isset($numero) || empty($numero = trim($numero)) ||
-		!isset($categoria) || empty($categoria = trim($categoria)) ||
-		!isset($quantidade) || empty($quantidade = trim($quantidade)) ||
-		!isset($fornecedor) || empty($fornecedor = trim($fornecedor))
-	) return invalidateRequest("Todos os campos do formulário precisam ser preenchidos");
-
-	if(!mysqli_num_rows(mysqli_query($connection, "SELECT * FROM categoria WHERE nome = '$categoria'"))){
-		invalidateRequest("Categoria inválida");
-		return;
-	}
-
-	if(!mysqli_num_rows(mysqli_query($connection, "SELECT * FROM fornecedor WHERE nome = '$fornecedor'"))){
-		invalidateRequest("Fornecedor inválido");
-		return;
-	}
+	if(empty($nome) || empty($numero) || empty($categoria) || empty($quantidade) || empty($fornecedor)) return invalidateRequest("Todos os campos do formulário precisam ser preenchidos");
+	if(!mysqli_num_rows(mysqli_query($connection, "SELECT * FROM categoria WHERE nome = '$categoria'"))) return invalidateRequest("Categoria inválida");
+	if(!mysqli_num_rows(mysqli_query($connection, "SELECT * FROM fornecedor WHERE nome = '$fornecedor'"))) return invalidateRequest("Fornecedor inválido");
 
 	$query = mysqli_query($connection, "UPDATE estoque SET numero = '$numero', nome = '$nome', categoria = '$categoria', quantidade = '$quantidade', fornecedor = '$fornecedor' WHERE id = '$id'");
 
-	if(!$query){
-		http_response_code(500);
-		echo json_encode([
-			"success" => false,
-			"message" => mysqli_error($connection)
-		]);
-		mysqli_close($connection);
+	if(!$query) return invalidateRequest(mysqli_error($connection), 500);
+
+	if(strpos($_SERVER["HTTP_ACCEPT"], "text/html")){
+		header("Location: ../../produtos/editar.php?id=$id");
 		return;
 	}
 
+	header("Content-Type: application/json; charset=utf-8");
 	echo json_encode([ "success" => true ]);
+	mysqli_close($connection);
 }catch(Exception $error){
-	http_response_code(500);
-	echo json_encode([
-		"success" => false,
-		"message" => $error->getMessage()
-	]);
+	invalidateRequest($error->getMessage(), 500);
 }
-
-mysqli_close($connection);
-
-?>

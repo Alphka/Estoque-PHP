@@ -12,12 +12,12 @@ if($_SERVER["REQUEST_METHOD"] !== "POST") return http_response_code(405);
 
 include "../../conexao.php";
 
-$nome = $_POST["nome"];
+$nome = isset($_POST["nome"]) ? trim($_POST["nome"]) : "";
 
 header("Content-Type: application/json; charset=utf-8");
 
 try{
-	if(isset($nome) && !empty($nome = trim($nome))){
+	if(!empty($nome)){
 		$query = mysqli_query($connection, "INSERT INTO fornecedor (nome) VALUES ('$nome')");
 
 		if(!$query){
@@ -50,5 +50,3 @@ try{
 }
 
 mysqli_close($connection);
-
-?>

@@ -2,16 +2,12 @@
 
 session_start();
 
-if(!isset($_SESSION["usuario"])){
-	http_response_code(401);
-	header("Location: ../login.php");
-	return;
-}
+if(!isset($_SESSION["usuario"])) return header("Location: ../login.php");
 
 include "../conexao.php";
 
 $categorias = mysqli_query($connection, "SELECT * FROM categoria ORDER BY nome ASC");
-$categoriasArray = array();
+$categoriasArray = [];
 
 if(mysqli_num_rows($categorias) > 0){
 	while($categoria = mysqli_fetch_array($categorias)){

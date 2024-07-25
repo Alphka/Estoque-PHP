@@ -2,16 +2,12 @@
 
 session_start();
 
-if(!isset($_SESSION["usuario"])){
-	http_response_code(401);
-	header("Location: ../login.php");
-	return;
-}
+if(!isset($_SESSION["usuario"])) return header("Location: ../login.php");
 
 include "../conexao.php";
 
 $produtos = mysqli_query($connection, "SELECT * FROM estoque ORDER BY nome ASC");
-$produtosArray = array();
+$produtosArray = [];
 
 if(mysqli_num_rows($produtos) > 0){
 	while($produto = mysqli_fetch_array($produtos)){

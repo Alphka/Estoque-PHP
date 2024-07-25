@@ -3,7 +3,7 @@
 $host = "localhost";
 $port = 3306;
 $user = "root";
-$password = "";
+$password = "root";
 $dbName = "estoque";
 
 $connection = mysqli_connect($host, $user, $password, $dbName, $port);

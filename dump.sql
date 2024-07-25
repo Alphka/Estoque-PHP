@@ -45,7 +45,8 @@ INSERT INTO fornecedor (nome) VALUES
 	("MH TECH"),
 	("FILIPAK Cursos"),
 	("Palimontes Informática"),
-	("Casas Bahia");
+	("Casas Bahia"),
+	("Oderço Distribuidora");
 
 DROP TABLE IF EXISTS usuarios;
 CREATE TABLE usuarios (
