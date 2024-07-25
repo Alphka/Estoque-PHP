@@ -2,59 +2,39 @@
 
 session_start();
 
-if(!isset($_SESSION["usuario"])){
-	http_response_code(401);
-	header("Location: ../../login.php");
-	return;
-}
+if(!isset($_SESSION["usuario"])) return header("Location: ../../login.php");
 
 if($_SERVER["REQUEST_METHOD"] !== "POST") return http_response_code(405);
 
 include "../../conexao.php";
 
-if(!$connection){
-	http_response_code(500);
-	return;
+$nome = isset($_POST["nome"]) ? trim($_POST["nome"]) : null;
+$email = isset($_POST["email"]) ? trim($_POST["email"]) : null;
+$senha = isset($_POST["senha"]) ? trim($_POST["senha"]) : null;
+$nivel = isset($_POST["nivel"]) ? trim($_POST["nivel"]) : null;
+
+function invalidateRequest(string $message, int $status = 400){
+	global $connection;
+
+	header("Content-Type: application/json; charset=utf-8", true, $status);
+	echo json_encode([
+		"success" => false,
+		"message" => $message
+	]);
+
+	mysqli_close($connection);
 }
-
-$nome = isset($_POST["nome"]) ? $_POST["nome"] : null;
-$email = isset($_POST["email"]) ? $_POST["email"] : null;
-$senha = isset($_POST["senha"]) ? $_POST["senha"] : null;
-$nivel = isset($_POST["nivel"]) ? $_POST["nivel"] : null;
-
-header("Content-Type: application/json; charset=utf-8");
 
 try{
-	if(!empty($nome) && !empty($email) && !empty($senha) && !empty($nivel)){
-		$query = mysqli_query($connection, "INSERT INTO usuarios (nome, email, senha, nivel) VALUES ('$nome', '$email', '$senha', '$nivel')");
+	if(empty($nome) || empty($email) || empty($senha) || empty($nivel)) return invalidateRequest("Todos os campos do formulário precisam ser preenchidos");
 
-		if(!$query){
-			http_response_code(500);
-			echo json_encode([
-				"success" => false,
-				"message" => mysqli_error($connection)
-			]);
-			mysqli_close($connection);
-			return;
+	$query = mysqli_query($connection, "INSERT INTO usuarios (nome, email, senha, nivel) VALUES ('$nome', '$email', '$senha', '$nivel')");
 
-		}
+	if(!$query) return invalidateRequest(mysqli_error($connection), 500);
 
-		echo json_encode([ "success" => true ]);
-		mysqli_close($connection);
-		return;
-	}
-
-	http_response_code(400);
-	echo json_encode([
-		"success" => false,
-		"message" => "Todos os campos do formulário precisam ser preenchidos"
-	]);
+	header("Content-Type: application/json; charset=utf-8");
+	echo json_encode([ "success" => true ]);
+	mysqli_close($connection);
 }catch(Exception $error){
-	http_response_code(500);
-	echo json_encode([
-		"success" => false,
-		"message" => $error->getMessage()
-	]);
+	invalidateRequest($error->getMessage(), 500);
 }
-
-mysqli_close($connection);

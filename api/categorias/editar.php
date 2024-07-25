@@ -21,9 +21,9 @@ try{
 
 include "../../conexao.php";
 
-$fornecedores = mysqli_query($connection, "SELECT * FROM fornecedor WHERE id = '$id'");
+$categorias = mysqli_query($connection, "SELECT * FROM categoria WHERE id = '$id'");
 
-if(mysqli_num_rows($fornecedores) == 0){
+if(mysqli_num_rows($categorias) == 0){
 	http_response_code(404);
 	return;
 }
@@ -45,12 +45,12 @@ function invalidateRequest(string $message, int $status = 400){
 try{
 	if(empty($nome)) return invalidateRequest("Todos os campos do formulário precisam ser preenchidos");
 
-	$query = mysqli_query($connection, "UPDATE fornecedor SET nome = '$nome' WHERE id = '$id'");
+	$query = mysqli_query($connection, "UPDATE categoria SET nome = '$nome' WHERE id = '$id'");
 
 	if(!$query) return invalidateRequest(mysqli_error($connection), 500);
 
 	if(strpos($_SERVER["HTTP_ACCEPT"], "text/html")){
-		header("Location: ../../fornecedores/editar.php?id=$id");
+		header("Location: ../../categorias/editar.php?id=$id");
 		return;
 	}
 
