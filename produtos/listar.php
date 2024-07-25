@@ -62,8 +62,10 @@ mysqli_close($connection);
 						{ field: "fornecedor", title: "Fornecedor", headerFilter: "input" },
 						{ field: "quantidade", title: "Quantidade", width: 120, headerFilter: "input", hozAlign: "center" },
 						{ title: "Ações", width: 108, headerSort: false, formatter: cell => (
-							`<a href="editar.php?id=${cell.getRow().getData().id}" class="bg-yellow-600 hover:opacity-90 hover:shadow focus:bg-yellow-700 text-white inline-flex items-center text-center px-1 rounded select-none" role="button">Editar</button>` +
-							`<a href="excluir.php?id=${cell.getRow().getData().id}" class="bg-red-600 hover:opacity-90 hover:shadow focus:bg-red-700 text-white inline-flex items-center text-center px-1 ml-1 rounded select-none" role="button">Excluir</button>`
+							'<div class="flex items-center justify-center gap-1.5">' +
+								`<a href="editar.php?id=${cell.getRow().getData().id}" class="bg-yellow-600 hover:opacity-90 hover:shadow focus:bg-yellow-700 text-white inline-flex items-center text-center px-1 rounded select-none" role="button">Editar</button>` +
+								`<a href="excluir.php?id=${cell.getRow().getData().id}" class="bg-red-600 hover:opacity-90 hover:shadow focus:bg-red-700 text-white inline-flex items-center text-center px-1 rounded select-none" role="button">Excluir</button>` +
+							"</div>"
 						), columnVertAlign: "center", hozAlign: "center" }
 					],
 					locale: "pt-BR",
