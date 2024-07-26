@@ -4,7 +4,7 @@ session_start();
 
 if(!isset($_SESSION["usuario"])) return header("Location: ../../login.php");
 
-if($_SERVER["REQUEST_METHOD"] !== "POST") return http_response_code(405);
+if($_SERVER["REQUEST_METHOD"] !== "GET") return http_response_code(405);
 
 $queries = [];
 parse_str($_SERVER["QUERY_STRING"], $queries);
@@ -28,8 +28,6 @@ if(mysqli_num_rows($categorias) == 0){
 	return;
 }
 
-$nome = isset($_POST["nome"]) ? trim($_POST["nome"]) : "";
-
 function invalidateRequest(string $message, int $status = null){
 	global $connection;
 
@@ -43,14 +41,12 @@ function invalidateRequest(string $message, int $status = null){
 }
 
 try{
-	if(empty($nome)) return invalidateRequest("Todos os campos do formulário precisam ser preenchidos");
-
-	$query = mysqli_query($connection, "UPDATE categoria SET nome = '$nome' WHERE id = '$id'");
+	$query = mysqli_query($connection, "DELETE FROM categoria WHERE id = '$id'");
 
 	if(!$query) return invalidateRequest(mysqli_error($connection), 500);
 
 	if(strpos($_SERVER["HTTP_ACCEPT"], "text/html")){
-		header("Location: ../../categorias/editar.php?id=$id");
+		header("Location: ../../categorias/listar.php");
 		return;
 	}
 

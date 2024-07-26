@@ -13,7 +13,7 @@ try{
 	if(!$id || empty($id = trim($id))) throw new Exception("ID is not defined");
 	$id = intval($id);
 }catch(Exception $error){
-	header("Location: listar.php", true, 301);
+	header("Location: ../../categorias/listar.php", true, 301);
 	return;
 }
 
