@@ -413,6 +413,8 @@ if(!isset($_SESSION["usuario"])) return header("Location: ../login.php");
 							submitButton.disabled = false
 							submitButton.blur()
 						}
+
+						loading = false
 					}catch(error){
 						if(submitButton) submitButton.disabled = false
 						loading = false

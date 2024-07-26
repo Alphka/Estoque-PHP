@@ -389,6 +389,8 @@ mysqli_close($connection);
 							submitButton.disabled = false
 							submitButton.blur()
 						}
+
+						loading = false
 					}catch(error){
 						if(submitButton) submitButton.disabled = false
 						loading = false
