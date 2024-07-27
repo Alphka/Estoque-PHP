@@ -204,7 +204,7 @@ if(!isset($_SESSION["usuario"])) return header("Location: ../login.php");
 						const data = await response.json()
 
 						if(!data.success) throw data.message
-						if(!response.ok) throw response.status
+						if(!response.ok) throw `A requisição falhou com status ${response.status}`
 
 						showToastSuccess()
 

@@ -267,7 +267,7 @@ mysqli_close($connection);
 						const data = await response.json()
 
 						if(!data.success) throw data.message
-						if(!response.ok) throw response.status
+						if(!response.ok) throw `A requisição falhou com status ${response.status}`
 
 						showToastSuccess()
 
