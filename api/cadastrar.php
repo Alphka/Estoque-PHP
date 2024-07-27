@@ -18,6 +18,8 @@ if(!empty($nome) && !empty($email) && !empty($senha) && !empty($nivel)){
 		header("Location: ../index.php");
 		return;
 	}
+
+	mysqli_close($connection);
 }
 
 header("Location: ../register.php");
