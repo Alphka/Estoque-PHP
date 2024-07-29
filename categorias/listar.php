@@ -162,7 +162,7 @@ mysqli_close($connection);
 						{ title: "Ações", width: 108, headerSort: false, formatter: cell => (
 							'<div class="flex items-center justify-center gap-1.5">' +
 								`<a href="editar.php?id=${cell.getRow().getData().id}" class="bg-yellow-600 hover:opacity-90 hover:shadow focus:bg-yellow-700 text-white inline-flex items-center text-center px-1 rounded select-none" role="button">Editar</a>` +
-								`<form action="../api/categorias/excluir.php?id=${cell.getRow().getData().id}" onsubmit="handleSendForm.call(this, event, '${cell.getRow().getData().id}')">` +
+								`<form action="../api/categorias/excluir.php?id=${cell.getRow().getData().id}" onsubmit="handleDeleteFormSubmit.call(this, event, '${cell.getRow().getData().id}')">` +
 									`<button class="bg-red-600 hover:opacity-90 hover:shadow focus:bg-red-700 text-white inline-flex items-center text-center px-1 rounded select-none" type="submit">Excluir</button>` +
 								"</form>" +
 							"</div>"
@@ -213,7 +213,7 @@ mysqli_close($connection);
 				 * @param {SubmitEvent} event
 				 * @param {string} rowId
 				 */
-				async function handleSendForm(event, rowId){
+				async function handleDeleteFormSubmit(event, rowId){
 					event.preventDefault()
 
 					const button = this.querySelector("button")
@@ -239,6 +239,9 @@ mysqli_close($connection);
 						if(!data.success) throw data.message
 						if(!response.ok) throw `A requisição falhou com status ${response.status}`
 
+						await table.deleteRow(rowId)
+						categorias.splice(categorias.findIndex(categoria => categoria.id == rowId), 1)
+
 						showToastSuccess()
 						setLoading(false)
 					}catch(error){
@@ -261,7 +264,7 @@ mysqli_close($connection);
 					}
 				}
 
-				window.handleSendForm = handleSendForm
+				window.handleDeleteFormSubmit = handleDeleteFormSubmit
 				})()
 			</script>
 		</main>
