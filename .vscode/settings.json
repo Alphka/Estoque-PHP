@@ -1,3 +1,10 @@
 {
-	"php.version": "5.6"
+	"php.version": "5.6",
+	"editor.renderWhitespace": "trailing",
+	"javascript.preferences.quoteStyle": "double",
+    "typescript.preferences.quoteStyle": "double",
+    "files.eol": "\n",
+	"files.trimFinalNewlines": true,
+	"files.trimTrailingWhitespace": true,
+	"git.autofetch": true
 }

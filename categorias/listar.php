@@ -162,7 +162,7 @@ mysqli_close($connection);
 						{ title: "Ações", width: 108, headerSort: false, formatter: cell => (
 							'<div class="flex items-center justify-center gap-1.5">' +
 								`<a href="editar.php?id=${cell.getRow().getData().id}" class="bg-yellow-600 hover:opacity-90 hover:shadow focus:bg-yellow-700 text-white inline-flex items-center text-center px-1 rounded select-none" role="button">Editar</a>` +
-								`<form action="../api/categorias/excluir.php?id=${cell.getRow().getData().id}" onsubmit="handleDeleteFormSubmit.call(this, event, '${cell.getRow().getData().id}')">` +
+								`<form action="../api/categorias/excluir.php?id=${cell.getRow().getData().id}" method="POST" onsubmit="handleDeleteFormSubmit.call(this, event, '${cell.getRow().getData().id}')">` +
 									`<button class="bg-red-600 hover:opacity-90 hover:shadow focus:bg-red-700 text-white inline-flex items-center text-center px-1 rounded select-none" type="submit">Excluir</button>` +
 								"</form>" +
 							"</div>"
@@ -231,10 +231,17 @@ mysqli_close($connection);
 						setLoading(true)
 
 						const response = await fetch(this.action, {
+							method: this.method,
 							credentials: "include"
 						})
 
-						const data = await response.json()
+						let responseText, data
+						try{
+							responseText = await response.text()
+							data = JSON.parse(responseText)
+						}catch(error){
+							throw ["Algo deu errado na resposta da requisição", responseText]
+						}
 
 						if(!data.success) throw data.message
 						if(!response.ok) throw `A requisição falhou com status ${response.status}`
@@ -246,6 +253,12 @@ mysqli_close($connection);
 						setLoading(false)
 					}catch(error){
 						setLoading(false)
+
+						if(Array.isArray(error)){
+							showToastError(error[0])
+							console.error(error[1])
+							return
+						}
 
 						if(typeof error === "string"){
 							showToastError(error)
