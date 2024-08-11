@@ -22,4 +22,4 @@ if(!empty($nome) && !empty($email) && !empty($senha) && !empty($nivel)){
 	mysqli_close($connection);
 }
 
-header("Location: ../register.php");
+header("Location: ../register.html");

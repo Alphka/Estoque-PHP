@@ -22,4 +22,4 @@ if(!empty($nome) && !empty($senha)){
 	mysqli_close($connection);
 }
 
-header("Location: ../login.php");
+header("Location: ../login.html");

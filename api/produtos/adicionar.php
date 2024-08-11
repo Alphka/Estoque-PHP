@@ -2,7 +2,7 @@
 
 session_start();
 
-if(!isset($_SESSION["usuario"])) return header("Location: ../../login.php");
+if(!isset($_SESSION["usuario"])) return header("Location: ../../login.html");
 
 if($_SERVER["REQUEST_METHOD"] !== "POST") return http_response_code(405);
 

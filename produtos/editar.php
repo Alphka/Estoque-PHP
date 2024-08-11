@@ -2,7 +2,7 @@
 
 session_start();
 
-if(!isset($_SESSION["usuario"])) return header("Location: ../login.php");
+if(!isset($_SESSION["usuario"])) return header("Location: ../login.html");
 
 $queries = [];
 parse_str($_SERVER["QUERY_STRING"], $queries);
