@@ -384,8 +384,15 @@ mysqli_close($connection);
 				toastError.classList.remove("invisible")
 				toastError.ariaHidden = false
 
-				toastSuccess.querySelector("button").addEventListener("click", () => toastSuccess.remove())
-				toastError.querySelector("button").addEventListener("click", () => toastError.remove())
+				toastSuccess.querySelector("button").addEventListener("click", () => {
+					clearTimeout(toastSuccessTimeout)
+					toastSuccess.remove()
+				})
+
+				toastError.querySelector("button").addEventListener("click", () => {
+					clearTimeout(toastErrorTimeout)
+					toastError.remove()
+				})
 
 				function showToastSuccess(message = "Produto editado com sucesso!"){
 					if(!toastSuccess) return
