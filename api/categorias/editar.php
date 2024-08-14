@@ -21,7 +21,7 @@ try{
 
 include "../../conexao.php";
 
-$categorias = mysqli_query($connection, "SELECT * FROM categoria WHERE id = '$id'");
+$categorias = mysqli_query($connection, "SELECT * FROM categoria WHERE id = '$id' LIMIT 1");
 
 if(mysqli_num_rows($categorias) == 0){
 	http_response_code(404);
@@ -45,7 +45,7 @@ function invalidateRequest(string $message, int $status = null){
 try{
 	if(empty($nome)) return invalidateRequest("Todos os campos do formulário precisam ser preenchidos");
 
-	$query = mysqli_query($connection, "UPDATE categoria SET nome = '$nome' WHERE id = '$id'");
+	$query = mysqli_query($connection, "UPDATE categoria SET nome = '$nome' WHERE id = '$id' LIMIT 1");
 
 	if(!$query) return invalidateRequest(mysqli_error($connection), 500);
 

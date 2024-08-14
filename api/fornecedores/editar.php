@@ -21,7 +21,7 @@ try{
 
 include "../../conexao.php";
 
-$fornecedores = mysqli_query($connection, "SELECT * FROM fornecedor WHERE id = '$id'");
+$fornecedores = mysqli_query($connection, "SELECT * FROM fornecedor WHERE id = '$id' LIMIT 1");
 
 if(mysqli_num_rows($fornecedores) == 0){
 	http_response_code(404);
@@ -45,7 +45,7 @@ function invalidateRequest(string $message, int $status = null){
 try{
 	if(empty($nome)) return invalidateRequest("Todos os campos do formulário precisam ser preenchidos");
 
-	$query = mysqli_query($connection, "UPDATE fornecedor SET nome = '$nome' WHERE id = '$id'");
+	$query = mysqli_query($connection, "UPDATE fornecedor SET nome = '$nome' WHERE id = '$id' LIMIT 1");
 
 	if(!$query) return invalidateRequest(mysqli_error($connection), 500);
 

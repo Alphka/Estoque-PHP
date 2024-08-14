@@ -30,7 +30,7 @@ if(!isset($_SESSION["usuario"])) return header("Location: ../login.html");
 				action="../api/categorias/adicionar.php"
 				method="post"
 			>
-				<div class="relative w-full h-10">
+				<div class="relative h-10">
 					<input
 						id="nome"
 						name="nome"

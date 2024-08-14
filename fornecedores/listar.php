@@ -10,11 +10,12 @@ $fornecedores = mysqli_query($connection, "SELECT * FROM fornecedor ORDER BY nom
 $fornecedoresArray = [];
 
 if(mysqli_num_rows($fornecedores) > 0){
-	while($fornecedor = mysqli_fetch_array($fornecedores)){
+	while($fornecedor = mysqli_fetch_array($fornecedores, MYSQLI_ASSOC)){
 		$fornecedoresArray[] = $fornecedor;
 	}
 }
 
+mysqli_free_result($fornecedores);
 mysqli_close($connection);
 
 ?>
@@ -254,7 +255,7 @@ mysqli_close($connection);
 						if(!response.ok) throw `A requisição falhou com status ${response.status}`
 
 						await table.deleteRow(rowId)
-						fornecedores.splice(fornecedores.findIndex(categoria => categoria.id == rowId), 1)
+						fornecedores.splice(fornecedores.findIndex(fornecedor => fornecedor.id == rowId), 1)
 
 						showToastSuccess()
 						setLoading(false)

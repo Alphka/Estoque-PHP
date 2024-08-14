@@ -19,7 +19,7 @@ try{
 
 include "../conexao.php";
 
-$categorias = mysqli_query($connection, "SELECT * FROM categoria WHERE id = '$id'");
+$categorias = mysqli_query($connection, "SELECT * FROM categoria WHERE id = '$id' LIMIT 1");
 
 if(mysqli_num_rows($categorias) == 0){
 	http_response_code(404);
@@ -56,7 +56,7 @@ mysqli_close($connection);
 				action="../api/categorias/editar.php?id=<?php echo $categoria["id"] ?>"
 				method="post"
 			>
-				<div class="relative w-full h-10">
+				<div class="relative h-10">
 					<input
 						type="number"
 						class="
@@ -92,7 +92,7 @@ mysqli_close($connection);
 					</label>
 				</div>
 
-				<div class="relative w-full h-10">
+				<div class="relative h-10">
 					<input
 						id="nome"
 						name="nome"

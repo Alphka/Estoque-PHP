@@ -19,7 +19,7 @@ try{
 
 include "../conexao.php";
 
-$produtos = mysqli_query($connection, "SELECT * FROM estoque WHERE id = '$id'");
+$produtos = mysqli_query($connection, "SELECT * FROM estoque WHERE id = '$id' LIMIT 1");
 
 if(mysqli_num_rows($produtos) == 0){
 	http_response_code(404);
@@ -58,7 +58,7 @@ mysqli_close($connection);
 				action="../api/produtos/editar.php?id=<?php echo $produto["id"] ?>"
 				method="post"
 			>
-				<div class="relative w-full h-10">
+				<div class="relative h-10">
 					<input
 						type="number"
 						class="
@@ -94,7 +94,7 @@ mysqli_close($connection);
 					</label>
 				</div>
 
-				<div class="relative w-full h-10">
+				<div class="relative h-10">
 					<input
 						id="nome"
 						name="nome"
@@ -130,7 +130,7 @@ mysqli_close($connection);
 					</label>
 				</div>
 
-				<div class="relative w-full h-10">
+				<div class="relative h-10">
 					<input
 						id="numero"
 						name="numero"
@@ -168,7 +168,7 @@ mysqli_close($connection);
 					</label>
 				</div>
 
-				<div class="relative w-full h-12">
+				<div class="relative h-12">
 					<select
 						id="categoria"
 						name="categoria"
@@ -224,7 +224,7 @@ mysqli_close($connection);
 					</label>
 				</div>
 
-				<div class="relative w-full h-10">
+				<div class="relative h-10">
 					<input
 						id="quantidade"
 						name="quantidade"
@@ -262,7 +262,7 @@ mysqli_close($connection);
 					</label>
 				</div>
 
-				<div class="relative w-full h-12">
+				<div class="relative h-12">
 					<select
 						id="fornecedor"
 						name="fornecedor"

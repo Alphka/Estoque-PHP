@@ -10,11 +10,12 @@ $categorias = mysqli_query($connection, "SELECT * FROM categoria ORDER BY nome A
 $categoriasArray = [];
 
 if(mysqli_num_rows($categorias) > 0){
-	while($categoria = mysqli_fetch_array($categorias)){
+	while($categoria = mysqli_fetch_array($categorias, MYSQLI_ASSOC)){
 		$categoriasArray[] = $categoria;
 	}
 }
 
+mysqli_free_result($categorias);
 mysqli_close($connection);
 
 ?>

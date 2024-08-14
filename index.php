@@ -115,7 +115,7 @@ if(!isset($_SESSION["usuario"])) header("Location: login.html");
 								<svg class="flex-shrink-0 h-[1em]" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" fill="currentColor">
 									<path d="M622-144 484-282l56-56 82 82 202-202 56 56-258 258ZM400-480q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47Zm114 52L368-282l122 122H80v-112q0-33 17-62t47-44q51-26 115-44t141-18q30 0 58.5 3t55.5 9Z" />
 								</svg>
-								<span>Aprovar usuários</span>
+								<span>Listar usuários</span>
 							</h5>
 							<p class="card-text">Aprove os usuários que se cadastraram no sistema por meio externo.</p>
 						</div>

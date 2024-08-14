@@ -33,7 +33,7 @@ function invalidateRequest(string $message, int $status = null){
 	mysqli_close($connection);
 }
 
-$categorias = mysqli_query($connection, "SELECT * FROM categoria WHERE id = '$id'");
+$categorias = mysqli_query($connection, "SELECT * FROM categoria WHERE id = '$id' LIMIT 1");
 
 if(!$categorias) return invalidateRequest(mysqli_error($connection), 500);
 
@@ -43,7 +43,7 @@ if(mysqli_num_rows($categorias) == 0){
 }
 
 try{
-	$query = mysqli_query($connection, "DELETE FROM categoria WHERE id = '$id'");
+	$query = mysqli_query($connection, "DELETE FROM categoria WHERE id = '$id' LIMIT 1");
 
 	if(!$query) return invalidateRequest(mysqli_error($connection), 500);
 

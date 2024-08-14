@@ -10,11 +10,12 @@ $produtos = mysqli_query($connection, "SELECT * FROM estoque ORDER BY nome ASC")
 $produtosArray = [];
 
 if(mysqli_num_rows($produtos) > 0){
-	while($produto = mysqli_fetch_array($produtos)){
+	while($produto = mysqli_fetch_array($produtos, MYSQLI_ASSOC)){
 		$produtosArray[] = $produto;
 	}
 }
 
+mysqli_free_result($produtos);
 mysqli_close($connection);
 
 ?>
@@ -258,7 +259,7 @@ mysqli_close($connection);
 						if(!response.ok) throw `A requisição falhou com status ${response.status}`
 
 						await table.deleteRow(rowId)
-						produtos.splice(produtos.findIndex(categoria => categoria.id == rowId), 1)
+						produtos.splice(produtos.findIndex(produto => produto.id == rowId), 1)
 
 						showToastSuccess()
 						setLoading(false)

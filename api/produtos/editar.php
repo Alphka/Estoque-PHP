@@ -21,7 +21,7 @@ try{
 
 include "../../conexao.php";
 
-$produtos = mysqli_query($connection, "SELECT * FROM estoque WHERE id = '$id'");
+$produtos = mysqli_query($connection, "SELECT * FROM estoque WHERE id = '$id' LIMIT 1");
 
 if(mysqli_num_rows($produtos) == 0){
 	http_response_code(404);
@@ -51,7 +51,7 @@ try{
 	if(!mysqli_num_rows(mysqli_query($connection, "SELECT * FROM categoria WHERE nome = '$categoria'"))) return invalidateRequest("Categoria inválida");
 	if(!mysqli_num_rows(mysqli_query($connection, "SELECT * FROM fornecedor WHERE nome = '$fornecedor'"))) return invalidateRequest("Fornecedor inválido");
 
-	$query = mysqli_query($connection, "UPDATE estoque SET numero = '$numero', nome = '$nome', categoria = '$categoria', quantidade = '$quantidade', fornecedor = '$fornecedor' WHERE id = '$id'");
+	$query = mysqli_query($connection, "UPDATE estoque SET numero = '$numero', nome = '$nome', categoria = '$categoria', quantidade = '$quantidade', fornecedor = '$fornecedor' WHERE id = '$id' LIMIT 1");
 
 	if(!$query) return invalidateRequest(mysqli_error($connection), 500);
 
