@@ -4,13 +4,40 @@ session_start();
 
 if(!isset($_SESSION["usuario"])) return header("Location: ../login.html");
 
+$queries = [];
+parse_str($_SERVER["QUERY_STRING"], $queries);
+
+$id = isset($queries["id"]) ? $queries["id"] : null;
+
+try{
+	if(!$id || empty($id = trim($id))) throw new Exception("ID is not defined");
+	$id = intval($id);
+}catch(Exception $error){
+	header("Location: ../../usuarios/listar.php", true, 301);
+	return;
+}
+
+include "../conexao.php";
+
+$usuarios = mysqli_query($connection, "SELECT * FROM usuarios WHERE id = '$id' LIMIT 1");
+
+if(mysqli_num_rows($usuarios) == 0){
+	http_response_code(404);
+	return;
+}
+
+$usuario = mysqli_fetch_array($usuarios);
+
+mysqli_close($connection);
+
 ?>
 <!DOCTYPE html>
-<html lang="pt=BR">
+<html lang="pt-BR">
 	<head>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<title>Cadastrar usuário - Estoque</title>
+		<meta name="color-scheme" content="dark">
+		<title>Editar usuário - Estoque</title>
 		<script src="https://cdn.tailwindcss.com"></script>
 		<link rel="stylesheet" href="../styles/global.css">
 	</head>
@@ -18,14 +45,14 @@ if(!isset($_SESSION["usuario"])) return header("Location: ../login.html");
 		<main>
 			<header class="pt-8">
 				<hgroup class="flex flex-col text-center gap-2">
-					<h1 class="text-3xl font-bold leading-none">Formulário de cadastro</h1>
-					<h2 class="text-xl font-semibold leading-normal">Cadastrar usuário</h2>
+					<h1 class="text-3xl font-bold leading-none">Formulário de edição</h1>
+					<h2 class="text-xl font-semibold leading-normal">Editar informações do usuário</h2>
 				</hgroup>
 			</header>
 
 			<form
 				class="container max-w-md flex flex-col pt-8 px-4 mx-auto gap-4"
-				action="../api/usuarios/adicionar.php"
+				action="../api/usuarios/editar.php?id=<?php echo $usuario["id"] ?>"
 				autocomplete="off"
 				method="POST"
 			>
@@ -43,6 +70,7 @@ if(!isset($_SESSION["usuario"])) return header("Location: ../login.html");
 							transition-all
 						"
 						placeholder
+						value="<?php echo $usuario["nome"] ?>"
 						required
 					>
 					<label
@@ -78,6 +106,7 @@ if(!isset($_SESSION["usuario"])) return header("Location: ../login.html");
 							text-sm px-3 py-2.5 rounded-md border-slate-400 focus:border-2 focus:border-slate-200
 							transition-all
 						"
+						value="<?php echo $usuario["email"] ?>"
 						placeholder
 						required
 					>
@@ -106,7 +135,7 @@ if(!isset($_SESSION["usuario"])) return header("Location: ../login.html");
 						id="senha"
 						name="senha"
 						type="password"
-						autocomplete="new-password"
+						autocomplete="no-autocomplete"
 						class="
 							peer w-full h-full bg-transparent border border-t-transparent focus:border-t-transparent
 							outline outline-0 focus:outline-0
@@ -114,6 +143,7 @@ if(!isset($_SESSION["usuario"])) return header("Location: ../login.html");
 							text-sm px-3 py-2.5 rounded-md border-slate-400 focus:border-2 focus:border-slate-200
 							transition-all
 						"
+						value="<?php echo $usuario["senha"] ?>"
 						placeholder
 						required
 					>
@@ -187,8 +217,8 @@ if(!isset($_SESSION["usuario"])) return header("Location: ../login.html");
 						"
 						required
 					>
-						<option value hidden disabled selected>Selecione um dos itens</option>
-						<option class="bg-gray-800" value="1">Administrador</option>
+						<?php # TODO: Implement more level access ?>
+						<option class="bg-gray-800" value="1" selected>Administrador</option>
 					</select>
 					<label
 						class="
@@ -214,66 +244,13 @@ if(!isset($_SESSION["usuario"])) return header("Location: ../login.html");
 				</div>
 
 				<button
-					class="bg-blue-500 hover:opacity-95 hover:shadow focus:bg-blue-600 flex items-center px-3 py-1 w-fit mx-auto rounded select-none text-center"
+					class="bg-blue-500 focus:bg-blue-600 enabled:hover:bg-blue-600 enabled:hover:shadow disabled:bg-blue-700 disabled:cursor-not-allowed flex items-center text-center px-3 py-1 w-fit mx-auto rounded select-none"
 					aria-label="Clique para enviar o formulário"
 					type="submit"
 				>
-					Cadastrar
+					Enviar
 				</button>
 			</form>
-
-			<script>
-				(() => {
-				const form = document.forms[0]
-				const nomeElement = /** @type {HTMLInputElement} */ (form.elements.namedItem("nome"))
-				const senhaElement = /** @type {HTMLInputElement} */ (form.elements.namedItem("senha"))
-				const confirmarSenhaElement = /** @type {HTMLInputElement} */ (form.querySelector("#confirmar-senha"))
-
-				let nomeChangeTimestamp, senhaChangeTimestamp
-
-				function fixRenderInputs(elementToFocus = form.querySelector('[type="submit"]')){
-					nomeElement.focus()
-					senhaElement.focus()
-					elementToFocus?.focus()
-				}
-
-				const interval = setInterval(fixRenderInputs)
-				setTimeout(() => clearInterval(interval), 30)
-
-				nomeElement.addEventListener("change", function(event){
-					nomeChangeTimestamp = event.timeStamp
-					if(nomeChangeTimestamp - senhaChangeTimestamp < 10) fixRenderInputs()
-				})
-
-				senhaElement.addEventListener("change", function(event){
-					senhaChangeTimestamp = event.timeStamp
-					if(senhaChangeTimestamp - nomeChangeTimestamp < 10) fixRenderInputs()
-				})
-
-				function validatePasswordConfirmation(){
-					if(!confirmarSenhaElement || !document.contains(confirmarSenhaElement)) throw new Error("O input da senha não foi encontrado")
-
-					if(confirmarSenhaElement.value.trim() !== senhaElement.value.trim()){
-						if(!confirmarSenhaElement.value.trim()) return
-
-						confirmarSenhaElement.setCustomValidity("Precisa ser igual a senha digitada acima.")
-						confirmarSenhaElement.classList.remove("placeholder-shown:border-slate-400", "placeholder-shown:border-t-slate-400", "border-slate-400", "focus:border-slate-200")
-						confirmarSenhaElement.nextElementSibling.classList.remove("text-gray-400", "peer-placeholder-shown:text-gray-400", "before:border-slate-400", "after:border-slate-400", "peer-focus:before:!border-slate-200", "peer-focus:after:!border-slate-200")
-						confirmarSenhaElement.classList.add("placeholder-shown:border-red-400", "placeholder-shown:border-t-red-400", "border-red-400", "focus:border-red-200")
-						confirmarSenhaElement.nextElementSibling.classList.add("text-red-400", "peer-placeholder-shown:text-red-400", "before:border-red-400", "after:border-red-400", "peer-focus:before:!border-red-200", "peer-focus:after:!border-red-200")
-					}else{
-						confirmarSenhaElement.setCustomValidity("")
-						confirmarSenhaElement.classList.add("placeholder-shown:border-slate-400", "placeholder-shown:border-t-slate-400", "border-slate-400", "focus:border-slate-200")
-						confirmarSenhaElement.nextElementSibling.classList.add("text-gray-400", "peer-placeholder-shown:text-gray-400", "before:border-slate-400", "after:border-slate-400", "peer-focus:before:!border-slate-200", "peer-focus:after:!border-slate-200")
-						confirmarSenhaElement.classList.remove("placeholder-shown:border-red-400", "placeholder-shown:border-t-red-400", "border-red-400", "focus:border-red-200")
-						confirmarSenhaElement.nextElementSibling.classList.remove("text-red-400", "peer-placeholder-shown:text-red-400", "before:border-red-400", "after:border-red-400", "peer-focus:before:!border-red-200", "peer-focus:after:!border-red-200")
-					}
-				}
-
-				senhaElement.addEventListener("change", validatePasswordConfirmation)
-				confirmarSenhaElement.addEventListener("change", validatePasswordConfirmation)
-				})()
-			</script>
 
 			<div class="fixed top-5 right-5 flex flex-col w-full max-w-xs select-none gap-4">
 				<div id="toast-success" class="invisible bg-gray-800 text-gray-200 flex items-center p-4 rounded-lg shadow transition-transform" role="alert" aria-hidden="true">
@@ -342,7 +319,7 @@ if(!isset($_SESSION["usuario"])) return header("Location: ../login.html");
 					toastError.remove()
 				})
 
-				function showToastSuccess(message = "Usuário cadastrado com sucesso!"){
+				function showToastSuccess(message = "Usuário editado com sucesso!"){
 					if(!toastSuccess) return
 
 					const messageElement = /** @type {HTMLDivElement | null} */ (toastSuccess.querySelector(".message"))
