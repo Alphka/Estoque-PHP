@@ -251,6 +251,59 @@ mysqli_close($connection);
 				</button>
 			</form>
 
+			<script>
+				(() => {
+				const form = document.forms[0]
+				const nomeElement = /** @type {HTMLInputElement} */ (form.elements.namedItem("nome"))
+				const senhaElement = /** @type {HTMLInputElement} */ (form.elements.namedItem("senha"))
+				const confirmarSenhaElement = /** @type {HTMLInputElement} */ (form.querySelector("#confirmar-senha"))
+
+				let nomeChangeTimestamp, senhaChangeTimestamp
+
+				function fixRenderInputs(elementToFocus = form.querySelector('[type="submit"]')){
+					nomeElement.focus()
+					senhaElement.focus()
+					elementToFocus?.focus()
+				}
+
+				const interval = setInterval(fixRenderInputs)
+				setTimeout(() => clearInterval(interval), 30)
+
+				nomeElement.addEventListener("change", function(event){
+					nomeChangeTimestamp = event.timeStamp
+					if(nomeChangeTimestamp - senhaChangeTimestamp < 10) fixRenderInputs()
+				})
+
+				senhaElement.addEventListener("change", function(event){
+					senhaChangeTimestamp = event.timeStamp
+					if(senhaChangeTimestamp - nomeChangeTimestamp < 10) fixRenderInputs()
+				})
+
+				function validatePasswordConfirmation(){
+					if(!confirmarSenhaElement || !document.contains(confirmarSenhaElement)) throw new Error("O input da senha não foi encontrado")
+
+					if(confirmarSenhaElement.value.trim() !== senhaElement.value.trim()){
+						if(!confirmarSenhaElement.value.trim()) return
+
+						confirmarSenhaElement.setCustomValidity("Precisa ser igual a senha digitada acima.")
+						confirmarSenhaElement.classList.remove("placeholder-shown:border-slate-400", "placeholder-shown:border-t-slate-400", "border-slate-400", "focus:border-slate-200")
+						confirmarSenhaElement.nextElementSibling.classList.remove("text-gray-400", "peer-placeholder-shown:text-gray-400", "before:border-slate-400", "after:border-slate-400", "peer-focus:before:!border-slate-200", "peer-focus:after:!border-slate-200")
+						confirmarSenhaElement.classList.add("placeholder-shown:border-red-400", "placeholder-shown:border-t-red-400", "border-red-400", "focus:border-red-200")
+						confirmarSenhaElement.nextElementSibling.classList.add("text-red-400", "peer-placeholder-shown:text-red-400", "before:border-red-400", "after:border-red-400", "peer-focus:before:!border-red-200", "peer-focus:after:!border-red-200")
+					}else{
+						confirmarSenhaElement.setCustomValidity("")
+						confirmarSenhaElement.classList.add("placeholder-shown:border-slate-400", "placeholder-shown:border-t-slate-400", "border-slate-400", "focus:border-slate-200")
+						confirmarSenhaElement.nextElementSibling.classList.add("text-gray-400", "peer-placeholder-shown:text-gray-400", "before:border-slate-400", "after:border-slate-400", "peer-focus:before:!border-slate-200", "peer-focus:after:!border-slate-200")
+						confirmarSenhaElement.classList.remove("placeholder-shown:border-red-400", "placeholder-shown:border-t-red-400", "border-red-400", "focus:border-red-200")
+						confirmarSenhaElement.nextElementSibling.classList.remove("text-red-400", "peer-placeholder-shown:text-red-400", "before:border-red-400", "after:border-red-400", "peer-focus:before:!border-red-200", "peer-focus:after:!border-red-200")
+					}
+				}
+
+				senhaElement.addEventListener("change", validatePasswordConfirmation)
+				confirmarSenhaElement.addEventListener("change", validatePasswordConfirmation)
+				})()
+			</script>
+
 			<div class="fixed top-5 right-5 flex flex-col w-full max-w-xs select-none gap-4">
 				<div id="toast-success" class="invisible bg-gray-800 text-gray-200 flex items-center p-4 rounded-lg shadow transition-transform" role="alert" aria-hidden="true">
 					<div class="bg-green-800 text-green-200 inline-flex items-center justify-center flex-shrink-0 w-8 h-8 rounded-lg" aria-hidden="true">

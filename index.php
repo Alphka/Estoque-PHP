@@ -117,7 +117,7 @@ if(!isset($_SESSION["usuario"])) header("Location: login.html");
 								</svg>
 								<span>Listar usuários</span>
 							</h5>
-							<p class="card-text">Aprove os usuários que se cadastraram no sistema por meio externo.</p>
+							<p class="card-text">Edite, liste e adicione exclua os usuários cadastrados.</p>
 						</div>
 						<a href="usuarios/listar.php" class="inline-block text-sm text-white bg-blue-500 hover:opacity-95 hover:shadow focus:bg-blue-400 px-3 py-1 rounded select-none" role="button">Exibir lista</a>
 					</li>
