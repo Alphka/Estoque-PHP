@@ -282,7 +282,7 @@ mysqli_close($connection);
 							if(mysqli_num_rows($fornecedores)){
 								foreach($fornecedores as $fornecedor){
 									$nome = $fornecedor["nome"];
-									?>
+						?>
 									<option
 										class="bg-gray-800"
 										value="<?php echo $nome ?>"
@@ -290,7 +290,7 @@ mysqli_close($connection);
 									>
 										<?php echo $nome ?>
 									</option>
-									<?php
+						<?php
 								}
 							}
 						?>
