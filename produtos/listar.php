@@ -6,7 +6,7 @@ if(!isset($_SESSION["usuario"])) return header("Location: ../login.html");
 
 include "../conexao.php";
 
-$produtos = mysqli_query($connection, "SELECT * FROM estoque ORDER BY nome ASC");
+$produtos = mysqli_query($connection, "SELECT id, nome, numero, categoria, fornecedor, quantidade FROM estoque ORDER BY nome ASC");
 $produtosArray = [];
 
 if(mysqli_num_rows($produtos) > 0){
@@ -108,7 +108,7 @@ mysqli_close($connection);
 					toastError.remove()
 				})
 
-				function showToastSuccess(message = "Categoria removida com sucesso!"){
+				function showToastSuccess(message = "Produto removido com sucesso!"){
 					if(!toastSuccess) return
 
 					const messageElement = /** @type {HTMLDivElement | null} */ (toastSuccess.querySelector(".message"))
@@ -259,7 +259,7 @@ mysqli_close($connection);
 						if(!response.ok) throw `A requisição falhou com status ${response.status}`
 
 						await table.deleteRow(rowId)
-						produtos.splice(produtos.findIndex(produto => produto.id == rowId), 1)
+						produtos.splice(produtos.findIndex(produto => produto.id === rowId), 1)
 
 						showToastSuccess()
 						setLoading(false)

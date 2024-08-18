@@ -28,8 +28,8 @@ function invalidateRequest(string $message, int $status = null){
 
 try{
 	if(empty($nome) || empty($numero) || empty($categoria) || empty($quantidade) || empty($fornecedor)) return invalidateRequest("Todos os campos do formulário precisam ser preenchidos");
-	if(!mysqli_num_rows(mysqli_query($connection, "SELECT * FROM categoria WHERE nome = '$categoria'"))) return invalidateRequest("Categoria inválida");
-	if(!mysqli_num_rows(mysqli_query($connection, "SELECT * FROM fornecedor WHERE nome = '$fornecedor'"))) return invalidateRequest("Fornecedor inválido");
+	if(!mysqli_num_rows(mysqli_query($connection, "SELECT id FROM categoria WHERE nome = '$categoria'"))) return invalidateRequest("Categoria inválida");
+	if(!mysqli_num_rows(mysqli_query($connection, "SELECT id FROM fornecedor WHERE nome = '$fornecedor'"))) return invalidateRequest("Fornecedor inválido");
 
 	$query = mysqli_query($connection, "INSERT INTO estoque (numero, nome, categoria, quantidade, fornecedor) VALUES ('$numero', '$nome', '$categoria', '$quantidade', '$fornecedor')");
 

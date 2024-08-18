@@ -19,9 +19,9 @@ try{
 
 include "../conexao.php";
 
-$fornecedores = mysqli_query($connection, "SELECT * FROM fornecedor WHERE id = '$id' LIMIT 1");
+$fornecedores = mysqli_query($connection, "SELECT id, nome FROM fornecedor WHERE id = $id LIMIT 1");
 
-if(mysqli_num_rows($fornecedores) == 0){
+if(mysqli_num_rows($fornecedores) === 0){
 	http_response_code(404);
 	return;
 }

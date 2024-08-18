@@ -19,9 +19,9 @@ try{
 
 include "../conexao.php";
 
-$usuarios = mysqli_query($connection, "SELECT * FROM usuarios WHERE id = '$id' LIMIT 1");
+$usuarios = mysqli_query($connection, "SELECT id, nome, email FROM usuario WHERE id = $id LIMIT 1");
 
-if(mysqli_num_rows($usuarios) == 0){
+if(mysqli_num_rows($usuarios) === 0){
 	http_response_code(404);
 	return;
 }
@@ -143,7 +143,6 @@ mysqli_close($connection);
 							text-sm px-3 py-2.5 rounded-md border-slate-400 focus:border-2 focus:border-slate-200
 							transition-all
 						"
-						value="<?php echo $usuario["senha"] ?>"
 						placeholder
 						required
 					>

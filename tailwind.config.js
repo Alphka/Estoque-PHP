@@ -1,3 +1,5 @@
 module.exports = {
-	content: ["./**/*.php"]
+	content: [
+		"./**/*.{html,php}"
+	]
 }

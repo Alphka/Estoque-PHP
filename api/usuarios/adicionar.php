@@ -28,7 +28,7 @@ function invalidateRequest(string $message, int $status = null){
 try{
 	if(empty($nome) || empty($email) || empty($senha) || empty($nivel)) return invalidateRequest("Todos os campos do formulário precisam ser preenchidos");
 
-	$query = mysqli_query($connection, "INSERT INTO usuarios (nome, email, senha, nivel) VALUES ('$nome', '$email', '$senha', '$nivel')");
+	$query = mysqli_query($connection, "INSERT INTO usuario (nome, email, senha, nivel) VALUES ('$nome', '$email', '$senha', '$nivel')");
 
 	if(!$query) return invalidateRequest(mysqli_error($connection), 500);
 

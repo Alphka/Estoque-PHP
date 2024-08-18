@@ -10,7 +10,7 @@ session_start();
 if(!empty($nome) && !empty($senha)){
 	include "../conexao.php";
 
-	$query = mysqli_query($connection, "SELECT * FROM usuarios WHERE nome = '$nome' and senha = '$senha'");
+	$query = mysqli_query($connection, "SELECT id FROM usuario WHERE nome = '$nome' and senha = '$senha' LIMIT 1");
 
 	if($query && mysqli_num_rows($query)){
 		$_SESSION["usuario"] = $nome;

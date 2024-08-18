@@ -19,15 +19,15 @@ try{
 
 include "../conexao.php";
 
-$produtos = mysqli_query($connection, "SELECT * FROM estoque WHERE id = '$id' LIMIT 1");
+$produtos = mysqli_query($connection, "SELECT id, nome, numero, categoria, quantidade, fornecedor FROM estoque WHERE id = $id LIMIT 1");
 
-if(mysqli_num_rows($produtos) == 0){
+if(mysqli_num_rows($produtos) === 0){
 	http_response_code(404);
 	return;
 }
 
-$categorias = mysqli_query($connection, "SELECT * FROM categoria ORDER BY nome ASC");
-$fornecedores = mysqli_query($connection, "SELECT * FROM fornecedor ORDER BY nome ASC");
+$categorias = mysqli_query($connection, "SELECT nome FROM categoria ORDER BY nome ASC");
+$fornecedores = mysqli_query($connection, "SELECT nome FROM fornecedor ORDER BY nome ASC");
 $produto = mysqli_fetch_array($produtos);
 
 mysqli_close($connection);
@@ -188,15 +188,15 @@ mysqli_close($connection);
 							if(mysqli_num_rows($categorias)){
 								foreach($categorias as $categoria){
 									$nome = $categoria["nome"];
-									?>
+						?>
 									<option
 										class="bg-gray-800"
 										value="<?php echo $nome ?>"
-										<?php if($nome == $produto["categoria"]) echo "selected" ?>
+										<?php if($nome === $produto["categoria"]) echo "selected" ?>
 									>
 										<?php echo $nome ?>
 									</option>
-									<?php
+						<?php
 								}
 							}
 						?>
@@ -286,7 +286,7 @@ mysqli_close($connection);
 									<option
 										class="bg-gray-800"
 										value="<?php echo $nome ?>"
-										<?php if($nome == $produto["fornecedor"]) echo "selected" ?>
+										<?php if($nome === $produto["fornecedor"]) echo "selected" ?>
 									>
 										<?php echo $nome ?>
 									</option>

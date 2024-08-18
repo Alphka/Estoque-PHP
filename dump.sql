@@ -48,12 +48,11 @@ INSERT INTO fornecedor (nome) VALUES
 	("Casas Bahia"),
 	("Oderço Distribuidora");
 
-DROP TABLE IF EXISTS usuarios;
-CREATE TABLE usuarios (
+DROP TABLE IF EXISTS usuario;
+CREATE TABLE usuario (
 	id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	nome text,
 	email text,
 	senha text,
-	nivel int,
-	status text
+	nivel int
 );

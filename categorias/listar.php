@@ -6,7 +6,7 @@ if(!isset($_SESSION["usuario"])) return header("Location: ../login.html");
 
 include "../conexao.php";
 
-$categorias = mysqli_query($connection, "SELECT * FROM categoria ORDER BY nome ASC");
+$categorias = mysqli_query($connection, "SELECT id, nome FROM categoria ORDER BY nome ASC");
 $categoriasArray = [];
 
 if(mysqli_num_rows($categorias) > 0){
@@ -255,7 +255,7 @@ mysqli_close($connection);
 						if(!response.ok) throw `A requisição falhou com status ${response.status}`
 
 						await table.deleteRow(rowId)
-						categorias.splice(categorias.findIndex(categoria => categoria.id == rowId), 1)
+						categorias.splice(categorias.findIndex(categoria => categoria.id === rowId), 1)
 
 						showToastSuccess()
 						setLoading(false)

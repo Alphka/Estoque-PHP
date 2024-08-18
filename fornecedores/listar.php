@@ -6,7 +6,7 @@ if(!isset($_SESSION["usuario"])) return header("Location: ../login.html");
 
 include "../conexao.php";
 
-$fornecedores = mysqli_query($connection, "SELECT * FROM fornecedor ORDER BY nome ASC");
+$fornecedores = mysqli_query($connection, "SELECT id, nome FROM fornecedor ORDER BY nome ASC");
 $fornecedoresArray = [];
 
 if(mysqli_num_rows($fornecedores) > 0){
@@ -108,7 +108,7 @@ mysqli_close($connection);
 					toastError.remove()
 				})
 
-				function showToastSuccess(message = "Categoria removida com sucesso!"){
+				function showToastSuccess(message = "Fornecedor removido com sucesso!"){
 					if(!toastSuccess) return
 
 					const messageElement = /** @type {HTMLDivElement | null} */ (toastSuccess.querySelector(".message"))
@@ -255,7 +255,7 @@ mysqli_close($connection);
 						if(!response.ok) throw `A requisição falhou com status ${response.status}`
 
 						await table.deleteRow(rowId)
-						fornecedores.splice(fornecedores.findIndex(fornecedor => fornecedor.id == rowId), 1)
+						fornecedores.splice(fornecedores.findIndex(fornecedor => fornecedor.id === rowId), 1)
 
 						showToastSuccess()
 						setLoading(false)

@@ -6,8 +6,8 @@ if(!isset($_SESSION["usuario"])) return header("Location: ../login.html");
 
 include "../conexao.php";
 
-$categorias = mysqli_query($connection, "SELECT * FROM categoria ORDER BY nome ASC");
-$fornecedores = mysqli_query($connection, "SELECT * FROM fornecedor ORDER BY nome ASC");
+$categorias = mysqli_query($connection, "SELECT nome FROM categoria ORDER BY nome ASC");
+$fornecedores = mysqli_query($connection, "SELECT nome FROM fornecedor ORDER BY nome ASC");
 
 mysqli_close($connection);
 

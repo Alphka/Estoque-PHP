@@ -21,9 +21,9 @@ try{
 
 include "../../conexao.php";
 
-$produtos = mysqli_query($connection, "SELECT * FROM estoque WHERE id = '$id' LIMIT 1");
+$produtos = mysqli_query($connection, "SELECT id FROM estoque WHERE id = $id LIMIT 1");
 
-if(mysqli_num_rows($produtos) == 0){
+if(mysqli_num_rows($produtos) === 0){
 	http_response_code(404);
 	return;
 }
@@ -48,10 +48,10 @@ function invalidateRequest(string $message, int $status = null){
 
 try{
 	if(empty($nome) || empty($numero) || empty($categoria) || empty($quantidade) || empty($fornecedor)) return invalidateRequest("Todos os campos do formulário precisam ser preenchidos");
-	if(!mysqli_num_rows(mysqli_query($connection, "SELECT * FROM categoria WHERE nome = '$categoria'"))) return invalidateRequest("Categoria inválida");
-	if(!mysqli_num_rows(mysqli_query($connection, "SELECT * FROM fornecedor WHERE nome = '$fornecedor'"))) return invalidateRequest("Fornecedor inválido");
+	if(mysqli_num_rows(mysqli_query($connection, "SELECT id FROM categoria WHERE nome = '$categoria' LIMIT 1")) === 0) return invalidateRequest("Categoria inválida");
+	if(mysqli_num_rows(mysqli_query($connection, "SELECT id FROM fornecedor WHERE nome = '$fornecedor' LIMIT 1")) === 0) return invalidateRequest("Fornecedor inválido");
 
-	$query = mysqli_query($connection, "UPDATE estoque SET numero = '$numero', nome = '$nome', categoria = '$categoria', quantidade = '$quantidade', fornecedor = '$fornecedor' WHERE id = '$id' LIMIT 1");
+	$query = mysqli_query($connection, "UPDATE estoque SET numero = '$numero', nome = '$nome', categoria = '$categoria', quantidade = '$quantidade', fornecedor = '$fornecedor' WHERE id = $id LIMIT 1");
 
 	if(!$query) return invalidateRequest(mysqli_error($connection), 500);
 

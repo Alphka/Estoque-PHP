@@ -33,17 +33,17 @@ function invalidateRequest(string $message, int $status = null){
 	mysqli_close($connection);
 }
 
-$fornecedores = mysqli_query($connection, "SELECT * FROM fornecedor WHERE id = '$id' LIMIT 1");
+$fornecedores = mysqli_query($connection, "SELECT id FROM fornecedor WHERE id = $id LIMIT 1");
 
 if(!$fornecedores) return invalidateRequest(mysqli_error($connection), 500);
 
-if(mysqli_num_rows($fornecedores) == 0){
+if(mysqli_num_rows($fornecedores) === 0){
 	http_response_code(404);
 	return;
 }
 
 try{
-	$query = mysqli_query($connection, "DELETE FROM fornecedor WHERE id = '$id' LIMIT 1");
+	$query = mysqli_query($connection, "DELETE FROM fornecedor WHERE id = $id LIMIT 1");
 
 	if(!$query) return invalidateRequest(mysqli_error($connection), 500);
 

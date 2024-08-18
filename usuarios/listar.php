@@ -6,7 +6,7 @@ if(!isset($_SESSION["usuario"])) return header("Location: ../login.html");
 
 include "../conexao.php";
 
-$usuarios = mysqli_query($connection, "SELECT id, nome, email, nivel, status FROM usuarios ORDER BY nome ASC");
+$usuarios = mysqli_query($connection, "SELECT id, nome, email, nivel FROM usuario ORDER BY nome ASC");
 $usuariosArray = [];
 
 if(mysqli_num_rows($usuarios) > 0){
@@ -108,7 +108,7 @@ mysqli_close($connection);
 					toastError.remove()
 				})
 
-				function showToastSuccess(message = "Categoria removida com sucesso!"){
+				function showToastSuccess(message = "Usuário removido com sucesso!"){
 					if(!toastSuccess) return
 
 					const messageElement = /** @type {HTMLDivElement | null} */ (toastSuccess.querySelector(".message"))
@@ -154,8 +154,6 @@ mysqli_close($connection);
 
 				const usuarios = <?php echo json_encode($usuariosArray) ?>
 
-				console.log(window.temp1 = usuarios)
-
 				const table = new Tabulator("#lista", {
 					data: usuarios,
 					layout: "fitColumns",
@@ -171,7 +169,6 @@ mysqli_close($connection);
 						{ field: "nome", title: "Nome", headerFilter: "input" },
 						{ field: "email", title: "Email", headerFilter: "input", hozAlign: "center" },
 						{ field: "nivel", title: "Nível", width: 60, headerFilter: "input" },
-						{ field: "status", title: "Status", width: 120, headerFilter: "input", hozAlign: "center" },
 						{ title: "Ações", width: 108, headerSort: false, formatter: cell => (
 							'<div class="flex items-center justify-center gap-1.5">' +
 								`<a href="editar.php?id=${cell.getRow().getData().id}" class="bg-yellow-600 hover:opacity-90 hover:shadow focus:bg-yellow-700 text-white inline-flex items-center text-center px-1 rounded select-none" role="button">Editar</a>` +
@@ -260,7 +257,7 @@ mysqli_close($connection);
 						if(!response.ok) throw `A requisição falhou com status ${response.status}`
 
 						await table.deleteRow(rowId)
-						usuarios.splice(usuarios.findIndex(usuario => usuario.id == rowId), 1)
+						usuarios.splice(usuarios.findIndex(usuario => usuario.id === rowId), 1)
 
 						showToastSuccess()
 						setLoading(false)
