@@ -7,6 +7,9 @@ if(!isset($_SESSION["usuario"])) return header("Location: ../login.html");
 include "../conexao.php";
 
 $usuarios = mysqli_query($connection, "SELECT id, nome, email, nivel FROM usuario ORDER BY nome ASC");
+
+if(!$usuarios) die(mysqli_error($connection));
+
 $usuariosArray = [];
 
 if(mysqli_num_rows($usuarios) > 0){
@@ -152,7 +155,7 @@ mysqli_close($connection);
 					}, 5e3)
 				}
 
-				const usuarios = <?php echo json_encode($usuariosArray) ?>
+				const usuarios = <?php echo json_encode($usuariosArray) ?: "[]" ?>
 
 				const table = new Tabulator("#lista", {
 					data: usuarios,

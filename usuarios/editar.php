@@ -21,6 +21,8 @@ include "../conexao.php";
 
 $usuarios = mysqli_query($connection, "SELECT id, nome, email FROM usuario WHERE id = $id LIMIT 1");
 
+if(!$usuarios) die(mysqli_error($connection));
+
 if(mysqli_num_rows($usuarios) === 0){
 	http_response_code(404);
 	return;

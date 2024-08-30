@@ -7,6 +7,9 @@ if(!isset($_SESSION["usuario"])) return header("Location: ../login.html");
 include "../conexao.php";
 
 $fornecedores = mysqli_query($connection, "SELECT id, nome FROM fornecedor ORDER BY nome ASC");
+
+if(!$fornecedores) die(mysqli_error($connection));
+
 $fornecedoresArray = [];
 
 if(mysqli_num_rows($fornecedores) > 0){
@@ -152,7 +155,7 @@ mysqli_close($connection);
 					}, 5e3)
 				}
 
-				const fornecedores = <?php echo json_encode($fornecedoresArray) ?>
+				const fornecedores = <?php echo json_encode($fornecedoresArray) ?: "[]" ?>
 
 				const table = new Tabulator("#lista", {
 					data: fornecedores,

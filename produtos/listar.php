@@ -7,6 +7,9 @@ if(!isset($_SESSION["usuario"])) return header("Location: ../login.html");
 include "../conexao.php";
 
 $produtos = mysqli_query($connection, "SELECT id, nome, numero, categoria, fornecedor, quantidade FROM estoque ORDER BY nome ASC");
+
+if(!$produtos) die(mysqli_error($connection));
+
 $produtosArray = [];
 
 if(mysqli_num_rows($produtos) > 0){
@@ -152,7 +155,7 @@ mysqli_close($connection);
 					}, 5e3)
 				}
 
-				const produtos = <?php echo json_encode($produtosArray) ?>
+				const produtos = <?php echo json_encode($produtosArray) ?: "[]" ?>
 
 				const table = new Tabulator("#lista", {
 					data: produtos,

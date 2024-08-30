@@ -21,13 +21,21 @@ include "../conexao.php";
 
 $produtos = mysqli_query($connection, "SELECT id, nome, numero, categoria, quantidade, fornecedor FROM estoque WHERE id = $id LIMIT 1");
 
+if(!$produtos) die(mysqli_error($connection));
+
 if(mysqli_num_rows($produtos) === 0){
 	http_response_code(404);
 	return;
 }
 
 $categorias = mysqli_query($connection, "SELECT nome FROM categoria ORDER BY nome ASC");
+
+if(!$categorias) die(mysqli_error($connection));
+
 $fornecedores = mysqli_query($connection, "SELECT nome FROM fornecedor ORDER BY nome ASC");
+
+if(!$fornecedores) die(mysqli_error($connection));
+
 $produto = mysqli_fetch_array($produtos);
 
 mysqli_close($connection);

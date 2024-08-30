@@ -21,6 +21,8 @@ include "../conexao.php";
 
 $categorias = mysqli_query($connection, "SELECT id, nome FROM categoria WHERE id = $id LIMIT 1");
 
+if(!$categorias) die(mysqli_error($connection));
+
 if(mysqli_num_rows($categorias) === 0){
 	http_response_code(404);
 	return;

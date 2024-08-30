@@ -7,6 +7,9 @@ if(!isset($_SESSION["usuario"])) return header("Location: ../login.html");
 include "../conexao.php";
 
 $categorias = mysqli_query($connection, "SELECT id, nome FROM categoria ORDER BY nome ASC");
+
+if(!$categorias) die(mysqli_error($connection));
+
 $categoriasArray = [];
 
 if(mysqli_num_rows($categorias) > 0){
@@ -152,7 +155,7 @@ mysqli_close($connection);
 					}, 5e3)
 				}
 
-				const categorias = <?php echo json_encode($categoriasArray) ?>
+				const categorias = <?php echo json_encode($categoriasArray) ?: "[]" ?>
 
 				const table = new Tabulator("#lista", {
 					data: categorias,
